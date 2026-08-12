@@ -352,7 +352,7 @@ function measureBlock(k,logged,title){
     ${logged?'<span class="counter ok">Saved</span>':""}</div>
     <p class="measure-hint">Fasted, post-bathroom, before drinking. Tape at the navel, snug, normal exhale. Don't suck in.</p>
     <div class="inputs">
-      <label class="field"><span>Waist (in)</span><input type="number" inputmode="decimal" step="0.1" id="mw" value="${logged&&logged.waist!=null?logged.waist:""}" placeholder="—"></label>
+      <label class="field"><span>Waist (cm)</span><input type="number" inputmode="decimal" step="0.1" id="mw" value="${logged&&logged.waist!=null?logged.waist:""}" placeholder="—"></label>
       <label class="field"><span>Weight (lb)</span><input type="number" inputmode="decimal" step="0.1" id="mg" value="${logged&&logged.weight!=null?logged.weight:""}" placeholder="optional"></label>
       <button class="save" data-act="msave" data-d="${k}">Save</button></div></section>`;
 }
@@ -412,8 +412,8 @@ function viewProgress(){
   let h=`<div class="stack"><div class="bignums">
    <div class="bignum"><span class="bn-label">Weight</span><span class="bn-value">${nw??"—"}<small>lb</small></span>
      <span class="bn-sub">${nw?(nw-188).toFixed(1)+" to go":"log one"}</span></div>
-   <div class="bignum"><span class="bn-label">Waist</span><span class="bn-value">${na??"—"}<small>in</small></span>
-     <span class="bn-sub">${sa!=null&&na!=null?(sa-na).toFixed(1)+" in lost":"log one"}</span></div>
+   <div class="bignum"><span class="bn-label">Waist</span><span class="bn-value">${na??"—"}<small>cm</small></span>
+     <span class="bn-sub">${sa!=null&&na!=null?(sa-na).toFixed(1)+" cm lost":"log one"}</span></div>
    <div class="bignum"><span class="bn-label">Week</span><span class="bn-value">${weekNo}<small>/16</small></span>
      <span class="bn-sub">${sessions} sessions done</span></div></div>`;
   h+=`<section class="card"><div class="card-head"><h3>Waist</h3><span class="counter">${wa.length} entries</span></div>`;
@@ -424,11 +424,11 @@ function viewProgress(){
   if(quickOpen){
     h+=`<section class="card"><h3 class="solo">Log a measurement</h3><div class="inputs">
       <label class="field"><span>Date</span><input type="date" id="qd" value="${key(today())}"></label>
-      <label class="field"><span>Waist (in)</span><input type="number" inputmode="decimal" step="0.1" id="qw"></label>
+      <label class="field"><span>Waist (cm)</span><input type="number" inputmode="decimal" step="0.1" id="qw"></label>
       <label class="field"><span>Weight (lb)</span><input type="number" inputmode="decimal" step="0.1" id="qg"></label>
       <button class="save" data-act="qsave">Save</button></div></section>`;
   } else h+=`<button class="ghost" data-act="qopen">+ Log a measurement</button>`;
-  h+=`<div class="note-card">The scale is the rumour, the waist is the metric. Expect about 0.2 in a week, so compare two-week blocks rather than single readings.</div>`;
+  h+=`<div class="note-card">The scale is the rumour, the waist is the metric. Expect about 0.5 cm a week, so compare two-week blocks rather than single readings.</div>`;
   return h+`</div>`;
 }
 
