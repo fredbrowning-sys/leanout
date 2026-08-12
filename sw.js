@@ -1,10 +1,9 @@
-const CACHE = "leanout-v1";
+const CACHE = "delta-v2";
 const ASSETS = ["./", "./index.html", "./icon-180.png", "./icon-512.png", "./manifest.json"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
-
 self.addEventListener("activate", e => {
   e.waitUntil(
     caches.keys()
@@ -12,16 +11,18 @@ self.addEventListener("activate", e => {
       .then(() => self.clients.claim())
   );
 });
-
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
-  e.respondWith(
-    caches.match(e.request).then(hit =>
-      hit || fetch(e.request).then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
-        return res;
-      }).catch(() => caches.match("./index.html"))
-    )
-  );
+  // network-first for the page itself so updates land; cache-first for assets
+  if (e.request.mode === "navigate") {
+    e.respondWith(fetch(e.request).then(r => {
+      const c = r.clone(); caches.open(CACHE).then(x => x.put(e.request, c)).catch(()=>{});
+      return r;
+    }).catch(() => caches.match("./index.html")));
+    return;
+  }
+  e.respondWith(caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
+    const c = res.clone(); caches.open(CACHE).then(x => x.put(e.request, c)).catch(()=>{});
+    return res;
+  }).catch(() => caches.match("./index.html"))));
 });

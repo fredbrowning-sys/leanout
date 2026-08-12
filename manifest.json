@@ -1,6 +1,6 @@
 {
-  "name": "Lean-Out Protocol",
-  "short_name": "Lean Out",
+  "name": "Delta",
+  "short_name": "Delta",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
