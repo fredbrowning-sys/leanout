@@ -157,12 +157,15 @@ h3.solo{margin-bottom:11px}
 
 .nightly{margin-top:10px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .mealgrid{display:flex;flex-direction:column}
-.mealrow{display:grid;grid-template-columns:40px 1fr 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--hair);align-items:baseline;font-size:13.5px;line-height:1.35}
-.mealrow.now{background:var(--tint);padding-left:8px;margin-left:-8px;border-bottom-color:var(--rule)}
-.md{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
-.mealrow.now .md{color:var(--signal)}
-.mm{color:#3a3f47}
-.mm.strong{color:var(--ink);font-weight:500}
+.dayblock{padding:11px 0;border-bottom:1px solid var(--hair)}
+.dayblock.now{background:var(--tint);padding:11px 10px;margin:0 -10px;border-bottom-color:var(--rule)}
+.dayhead{font-family:var(--disp);font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:flex;align-items:baseline;gap:9px}
+.dayblock.now .dayhead{color:var(--signal)}
+.lightflag{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.dayline{display:grid;grid-template-columns:18px 1fr;gap:8px;padding:3px 0;align-items:baseline}
+.dl{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted)}
+.dv{font-size:14px;line-height:1.4}
+.dayjob{margin-top:7px;margin-left:26px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--signal)}
 .formula{font-family:var(--disp);font-weight:600;font-size:19px;line-height:1.3;text-transform:uppercase;letter-spacing:.02em;margin-bottom:9px}
 
 .tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1.5px solid var(--rule);padding-bottom:env(safe-area-inset-bottom)}
@@ -224,13 +227,24 @@ const WEEKS=[
 {n:16,target:188,note:"Final photos, waist, weight. Then stop cutting and reverse in over four weeks.",tag:"FINISH",tone:"deep"}];
 
 const MEALS={
- 0:{lunch:"Tuna ×2 + chickpeas + salad",dinner:"Rotisserie #1",job:"Shop · strip the chicken",light:true},
- 1:{lunch:"Work",dinner:"Rotisserie leftovers + beans",job:"Brown all 500 g beef tonight",light:true},
- 2:{lunch:"Work",dinner:"Beef, reheated"},
- 3:{lunch:"Work",dinner:"Beef, reheated",job:"Shop · strip rotisserie #2"},
- 4:{lunch:"Work",dinner:"Rotisserie #2",light:true},
- 5:{lunch:"Rotisserie leftovers",dinner:"Beef, fresh",job:"Brown all 500 g beef at lunch"},
- 6:{lunch:"Open — out, or eggs",dinner:"Beef, reheated"}};
+ 0:{lunch:"2 tins tuna + ½ tin chickpeas + bagged salad + balsamic",
+    dinner:"Rotisserie chicken + ½ quinoa pouch + ½ tin chickpeas + broccoli",
+    job:"Shop · strip the chicken",light:true},
+ 1:{lunch:"Work cafeteria",
+    dinner:"Rotisserie leftovers + ½ rice pouch + 1 cup edamame",
+    job:"Brown all 500 g beef tonight"},
+ 2:{lunch:"Work cafeteria",
+    dinner:"Beef 250 g + ½ quinoa pouch + ½ tin black beans + broccoli"},
+ 3:{lunch:"Work cafeteria",
+    dinner:"Beef 250 g + ½ rice pouch + 1 cup edamame",
+    job:"Shop · strip rotisserie #2"},
+ 4:{lunch:"Work cafeteria",
+    dinner:"Rotisserie #2 + ½ quinoa pouch + ½ tin black beans + broccoli",light:true},
+ 5:{lunch:"Rotisserie leftovers + ½ rice pouch + salad",
+    dinner:"Beef 250 g + ½ quinoa pouch + ½ tin chickpeas + broccoli",
+    job:"Brown all 500 g beef at lunch"},
+ 6:{lunch:"Open — out, or eggs and beans",
+    dinner:"Beef 250 g + baby potatoes 250 g + 1 cup edamame"}};
 
 const START="2026-08-17";
 const TRAVEL_FROM="2026-08-24", TRAVEL_TO="2026-08-27";
@@ -474,18 +488,21 @@ function viewFood(){
   <section class="card"><h3 class="solo">The week</h3><div class="mealgrid">`;
   for(let i=1;i<=7;i++){
     const d=i%7, m=MEALS[d], now=d===t;
-    h+=`<div class="mealrow${now?" now":""}">
-      <span class="md">${D[d]}</span>
-      <span class="mm">${esc(m.lunch)}</span>
-      <span class="mm strong">${esc(m.dinner)}</span></div>`;
+    h+=`<div class="dayblock${now?" now":""}">
+      <div class="dayhead">${D[d]}${m.light?'<span class="lightflag">2nd shake</span>':""}</div>
+      <div class="dayline"><span class="dl">L</span><span class="dv">${esc(m.lunch)}</span></div>
+      <div class="dayline"><span class="dl">D</span><span class="dv">${esc(m.dinner)}</span></div>
+      ${m.job?`<div class="dayjob">${esc(m.job)}</div>`:""}</div>`;
   }
-  h+=`</div><p class="fine" style="margin-top:10px">Left is lunch, right is dinner. Chicken nights are Sun, Mon and Thu — they land around 195 g, so take a second shake on those days.</p></section>
+  h+=`</div><p class="fine" style="margin-top:12px">Sunday and Thursday are the light ones — rotisserie only carries about 35 g. Take a second shake those days. Monday is fine now the edamame is doing the work.</p></section>
 
   <section class="card"><h3 class="solo">Every day</h3><ul class="rules">
     <li><b>Breakfast:</b> oat jar — 400 cal, 48 g protein</li>
     <li><b>Build tomorrow's jar before bed.</b> Two minutes, one jar at a time.</li>
     <li><b>Post-workout shake</b> — 80 cal, 20 g protein. Sunday is a rest day, so have it anyway.</li>
-    <li><b>Half a tin of beans</b> with dinner. Non-negotiable — this is the fibre fix.</li>
+    <li><b>Half a tin of beans or chickpeas</b> with dinner. Non-negotiable — this is the fibre fix.</li>
+    <li><b>Beans and chickpeas are interchangeable.</b> Chickpeas edge it — 10 g protein and 8 g fibre per half tin against 7 g and 6 g.</li>
+    <li><b>Edamame counts as the legume.</b> A cup shelled is 18 g protein and 8 g fibre — better than either tin, so no beans needed on edamame nights.</li>
   </ul></section>
 
   <section class="card"><h3 class="solo">Dinner formula</h3>
@@ -504,6 +521,8 @@ function viewFood(){
     <tr><td>Beef per meal</td><td>250 g</td></tr>
     <tr><td>Rice / quinoa pouch</td><td>½ (113 g)</td></tr>
     <tr><td>Beans or chickpeas</td><td>½ tin</td></tr>
+    <tr><td>Edamame, shelled</td><td>1 cup</td></tr>
+    <tr><td>Baby potatoes</td><td>250 g</td></tr>
     <tr><td>Tuna, Sunday lunch</td><td>2 tins</td></tr>
     <tr><td>Yogurt per week</td><td>2 × 750 g</td></tr>
   </tbody></table></section></div>`;
