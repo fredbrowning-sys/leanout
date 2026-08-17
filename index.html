@@ -150,8 +150,23 @@ h3.solo{margin-bottom:11px}
 .cd-num{font-family:var(--disp);font-weight:700;font-size:64px;line-height:.95;display:block}
 .cd-lbl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#e0cdd2}
 
-.tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1.5px solid var(--rule);padding-bottom:env(safe-area-inset-bottom)}
-.tab{padding:14px 4px 15px;background:none;border:none;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-top:3px solid transparent;margin-top:-1.5px}
+.meal{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--hair);align-items:baseline}
+.ml{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mv{font-size:15.5px;font-weight:500;line-height:1.35}
+.job{margin-top:11px;padding:10px 12px;background:var(--tint);border-left:4px solid var(--signal);font-size:14px;line-height:1.4}
+
+.nightly{margin-top:10px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mealgrid{display:flex;flex-direction:column}
+.mealrow{display:grid;grid-template-columns:40px 1fr 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--hair);align-items:baseline;font-size:13.5px;line-height:1.35}
+.mealrow.now{background:var(--tint);padding-left:8px;margin-left:-8px;border-bottom-color:var(--rule)}
+.md{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+.mealrow.now .md{color:var(--signal)}
+.mm{color:#3a3f47}
+.mm.strong{color:var(--ink);font-weight:500}
+.formula{font-family:var(--disp);font-weight:600;font-size:19px;line-height:1.3;text-transform:uppercase;letter-spacing:.02em;margin-bottom:9px}
+
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1.5px solid var(--rule);padding-bottom:env(safe-area-inset-bottom)}
+.tab{padding:14px 2px 15px;background:none;border:none;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:3px solid transparent;margin-top:-1.5px}
 .tab.on{color:var(--ink);border-top-color:var(--signal)}
 
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:88px;background:var(--ink);color:#fff;padding:11px 18px;font-size:14px;font-weight:500;z-index:50;border-radius:2px;opacity:0;transition:opacity .2s;pointer-events:none}
@@ -173,6 +188,7 @@ button{cursor:pointer}
 <nav class="tabs" id="tabs">
   <button class="tab on" data-tab="today">Today</button>
   <button class="tab" data-tab="week">Week</button>
+  <button class="tab" data-tab="food">Food</button>
   <button class="tab" data-tab="progress">Progress</button>
   <button class="tab" data-tab="plan">Plan</button>
 </nav>
@@ -206,6 +222,15 @@ const WEEKS=[
 {n:14,target:190,note:"Hunger management over heroics. Protein, volume, sleep. Don't cut calories further."},
 {n:15,target:189,note:"Second to last. Whatever the number says, you are a different shape than in August."},
 {n:16,target:188,note:"Final photos, waist, weight. Then stop cutting and reverse in over four weeks.",tag:"FINISH",tone:"deep"}];
+
+const MEALS={
+ 0:{lunch:"Tuna ×2 + chickpeas + salad",dinner:"Rotisserie #1",job:"Shop · strip the chicken",light:true},
+ 1:{lunch:"Work",dinner:"Rotisserie leftovers + beans",job:"Brown all 500 g beef tonight",light:true},
+ 2:{lunch:"Work",dinner:"Beef, reheated"},
+ 3:{lunch:"Work",dinner:"Beef, reheated",job:"Shop · strip rotisserie #2"},
+ 4:{lunch:"Work",dinner:"Rotisserie #2",light:true},
+ 5:{lunch:"Rotisserie leftovers",dinner:"Beef, fresh",job:"Brown all 500 g beef at lunch"},
+ 6:{lunch:"Open — out, or eggs",dinner:"Beef, reheated"}};
 
 const START="2026-08-17";
 const TRAVEL_FROM="2026-08-24", TRAVEL_TO="2026-08-27";
@@ -286,7 +311,8 @@ function render(){
   document.getElementById("hNum").textContent=lastOf("weight")??"—";
   document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
   document.getElementById("main").innerHTML =
-    tab==="today"?viewToday(date,p):tab==="week"?viewWeek(date):tab==="progress"?viewProgress():viewPlan();
+    tab==="today"?viewToday(date,p):tab==="week"?viewWeek(date):
+    tab==="food"?viewFood():tab==="progress"?viewProgress():viewPlan();
 }
 
 function viewToday(date,p){
@@ -343,6 +369,15 @@ function viewToday(date,p){
     set.map(([id,label])=>`<button class="habit${hab[id]?" on":""}" data-act="hab" data-id="${id}">
       <span class="hbox">${hab[id]?"✓":""}</span>${esc(label)}</button>`).join("")+`</div></section>`;
 
+  if(!p.travel&&p.phase!=="DONE"){
+    const m=MEALS[date.getDay()];
+    h+=`<section class="card"><div class="card-head"><h3>Eating today</h3>
+      ${m.light?'<span class="counter">chicken night · 2nd shake</span>':""}</div>
+      <div class="meal"><span class="ml">Lunch</span><span class="mv">${esc(m.lunch)}</span></div>
+      <div class="meal"><span class="ml">Dinner</span><span class="mv">${esc(m.dinner)}</span></div>
+      ${m.job?`<div class="job">${esc(m.job)}</div>`:""}
+      <div class="nightly">Before bed · build tomorrow's oat jar</div></section>`;
+  }
   if(measureDay||logged)h+=measureBlock(k,logged,"Measure this morning");
   return h+`</div>`;
 }
@@ -430,6 +465,49 @@ function viewProgress(){
   } else h+=`<button class="ghost" data-act="qopen">+ Log a measurement</button>`;
   h+=`<div class="note-card">The scale is the rumour, the waist is the metric. Expect about 0.5 cm a week, so compare two-week blocks rather than single readings.</div>`;
   return h+`</div>`;
+}
+
+function viewFood(){
+  const t=today().getDay();
+  const D=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  let h=`<div class="stack">
+  <section class="card"><h3 class="solo">The week</h3><div class="mealgrid">`;
+  for(let i=1;i<=7;i++){
+    const d=i%7, m=MEALS[d], now=d===t;
+    h+=`<div class="mealrow${now?" now":""}">
+      <span class="md">${D[d]}</span>
+      <span class="mm">${esc(m.lunch)}</span>
+      <span class="mm strong">${esc(m.dinner)}</span></div>`;
+  }
+  h+=`</div><p class="fine" style="margin-top:10px">Left is lunch, right is dinner. Chicken nights are Sun, Mon and Thu — they land around 195 g, so take a second shake on those days.</p></section>
+
+  <section class="card"><h3 class="solo">Every day</h3><ul class="rules">
+    <li><b>Breakfast:</b> oat jar — 400 cal, 48 g protein</li>
+    <li><b>Build tomorrow's jar before bed.</b> Two minutes, one jar at a time.</li>
+    <li><b>Post-workout shake</b> — 80 cal, 20 g protein. Sunday is a rest day, so have it anyway.</li>
+    <li><b>Half a tin of beans</b> with dinner. Non-negotiable — this is the fibre fix.</li>
+  </ul></section>
+
+  <section class="card"><h3 class="solo">Dinner formula</h3>
+    <p class="formula">Protein &nbsp;+&nbsp; ½ rice or quinoa pouch &nbsp;+&nbsp; ½ tin beans &nbsp;+&nbsp; frozen veg</p>
+    <p class="fine">Twenty minutes, one pan, same shape every night. Season by portion so day two doesn't taste like day one — chilli and cumin, then soy and garlic.</p></section>
+
+  <section class="card"><h3 class="solo">Three cooking jobs</h3><ul class="rules">
+    <li><b>Every night</b> — build tomorrow's oat jar. Two minutes.</li>
+    <li><b>Sunday night</b> — strip rotisserie #1</li>
+    <li><b>Monday night</b> — brown all 500 g beef, covers Tue and Wed</li>
+    <li><b>Friday lunch</b> — brown all 500 g beef, covers Fri and Sat</li>
+  </ul>
+  <p class="fine">Wednesday: strip rotisserie #2 the night you buy it. Off the bone it keeps better and takes less fridge space.</p></section>
+
+  <section class="card"><h3 class="solo">Portions</h3><table class="tbl"><tbody>
+    <tr><td>Beef per meal</td><td>250 g</td></tr>
+    <tr><td>Rice / quinoa pouch</td><td>½ (113 g)</td></tr>
+    <tr><td>Beans or chickpeas</td><td>½ tin</td></tr>
+    <tr><td>Tuna, Sunday lunch</td><td>2 tins</td></tr>
+    <tr><td>Yogurt per week</td><td>2 × 750 g</td></tr>
+  </tbody></table></section></div>`;
+  return h;
 }
 
 function acc(id,title,inner){

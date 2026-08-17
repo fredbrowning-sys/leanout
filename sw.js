@@ -1,4 +1,4 @@
-const CACHE = "delta-v3";
+const CACHE = "delta-v5";
 const ASSETS = ["./", "./index.html", "./icon-180.png", "./icon-512.png", "./manifest.json"];
 
 self.addEventListener("install", e => {
