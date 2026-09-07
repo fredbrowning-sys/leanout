@@ -209,27 +209,27 @@ const INT_A=[["Warm-up","10 min easy"],["6 × 90 sec hard","165-176 bpm"],["Reco
 const INT_B=[["Warm-up","10 min easy"],["4 × 3 min hard","158-168 bpm"],["Recovery","2 min jog"],["Cool-down","5 min"]];
 
 const WEEKS=[
-{n:1,target:207,note:"Track your food this week — 7 of the 14 calibration days. Expect a fast drop; most of it is water.",tag:"TRACK"},
-{n:2,target:207,note:"Conference in Boston, Monday to Thursday. Run Monday morning, write off Tuesday and Wednesday, then four straight lifts Thursday to Sunday. Holding level is the win.",tag:"CONFERENCE",tone:"amber"},
-{n:3,target:204,note:"Second tracking week — the other 7 days. After this you never log food again.",tag:"TRACK"},
-{n:4,target:203,note:"Month-one comparison shots. Measure chest and hips too.",tag:"PHOTOS"},
-{n:5,target:201,note:"The hard stretch begins. Slower progress, more hunger. Nothing is wrong. This is the week you have quit before."},
-{n:6,target:200,note:"Hold the line. If the waist has stalled three weeks, audit the diet for three days before changing anything."},
-{n:7,target:198,note:"Last hard week before the break. Push the lifts — relief is scheduled."},
-{n:8,target:197,note:"Halve every set. Same weights, half the volume. No intervals. Diet unchanged. This is what makes weeks 10-16 possible.",tag:"DELOAD",tone:"deep"},
-{n:9,target:198,note:"Seven days at ~3000 cal. Protein and training unchanged. The scale will rise 2-3 lb of food and water. That is not fat.",tag:"DIET BREAK",tone:"deep"},
-{n:10,target:196,note:"Back to 2250. Strength and mood should be noticeably better than week 7."},
-{n:11,target:195,note:"Halloween weekend. One occasion, capped, planned in advance."},
-{n:12,target:193,note:"Three-month comparison. Line them up against week 1.",tag:"PHOTOS"},
-{n:13,target:192,note:"Sub-195. Keep the easy runs genuinely easy — the temptation to push grows as you get lighter."},
-{n:14,target:190,note:"Hunger management over heroics. Protein, volume, sleep. Don't cut calories further."},
-{n:15,target:189,note:"Second to last. Whatever the number says, you are a different shape than in August."},
-{n:16,target:188,note:"Final photos, waist, weight. Then stop cutting and reverse in over four weeks.",tag:"FINISH",tone:"deep"}];
+{n:1,target:208,note:"First week back. Log everything, honestly — including the messy bits. Expect a fast drop; most of it is water."},
+{n:2,target:207,note:"Second week. Keep logging daily. No exit date on this — it's the method now, not a phase."},
+{n:3,target:205,note:"First check-in. Three weeks of real data is enough to see a trend. Look at the average, not any single day.",tag:"REVIEW"},
+{n:4,target:204,note:"Month-one comparison shots. Measure chest and hips too.",tag:"PHOTOS"},
+{n:5,target:202,note:"The hard stretch begins. Slower progress, more hunger. Nothing is wrong. This is the week you have quit before."},
+{n:6,target:201,note:"Second check-in. Compare this week's average to week 3's — that's the real signal, not the daily number.",tag:"REVIEW"},
+{n:7,target:199,note:"Last hard week before the break. Push the lifts — relief is scheduled."},
+{n:8,target:198,note:"Halve every set. Same weights, half the volume. No intervals. Diet unchanged. This is what makes weeks 10-16 possible.",tag:"DELOAD",tone:"deep"},
+{n:9,target:199,note:"Seven days at maintenance. Protein and training unchanged. The scale will rise 2-3 lb of food and water — not fat. Also check-in three: look back over three weeks of logs while intake's relaxed.",tag:"DIET BREAK",tone:"deep"},
+{n:10,target:197,note:"Back to target. Strength and mood should be noticeably better than week 7."},
+{n:11,target:196,note:"Any social occasion this week — plan it, cap it, don't let it drift into two nights."},
+{n:12,target:194,note:"Three-month comparison. Line them up against week 1 — this is also check-in four.",tag:"PHOTOS"},
+{n:13,target:193,note:"Keep the easy runs genuinely easy — the temptation to push grows as you get lighter."},
+{n:14,target:191,note:"Hunger management over heroics. Protein, volume, sleep. Don't cut calories further."},
+{n:15,target:190,note:"Fifth check-in. One left after this — look at the full run from week 1.",tag:"REVIEW"},
+{n:16,target:189,note:"Final photos, waist, weight. Then stop cutting and reverse in over four weeks.",tag:"FINISH",tone:"deep"}];
 
 const MEALS={
  0:{lunch:"2 tins tuna + ½ tin chickpeas + bagged salad + balsamic",
     dinner:"Rotisserie chicken + ½ quinoa pouch + ½ tin chickpeas + broccoli",
-    job:"Shop · strip the chicken",light:true},
+    job:"Shop · strip the chicken"},
  1:{lunch:"Work cafeteria",
     dinner:"Rotisserie leftovers + ½ rice pouch + 1 cup edamame",
     job:"Brown all 500 g beef tonight"},
@@ -239,17 +239,19 @@ const MEALS={
     dinner:"Beef 250 g + ½ rice pouch + 1 cup edamame",
     job:"Shop · strip rotisserie #2"},
  4:{lunch:"Work cafeteria",
-    dinner:"Rotisserie #2 + ½ quinoa pouch + ½ tin black beans + broccoli",light:true},
+    dinner:"Rotisserie #2 + ½ quinoa pouch + ½ tin black beans + broccoli"},
  5:{lunch:"Rotisserie leftovers + ½ rice pouch + salad",
     dinner:"Beef 250 g + ½ quinoa pouch + ½ tin chickpeas + broccoli",
     job:"Brown all 500 g beef at lunch"},
  6:{lunch:"Open — out, or eggs and beans",
     dinner:"Beef 250 g + baby potatoes 250 g + 1 cup edamame"}};
 
-const START="2026-08-17";
-const TRAVEL_FROM="2026-08-24", TRAVEL_TO="2026-08-27";
+const START="2026-09-08";
 const DAILY_HABITS=[["creatine","Creatine 5 g"],["protein","200 g protein"],["water","3.5 L water"],["steps","12k steps"],["kitchen","Kitchen closed after dinner"]];
-const TRAVEL_HABITS=[["creatine","Creatine 5 g"],["protein","Protein at every meal"],["water","Water between drinks"],["steps","Walked, didn't cab it"],["drinks","Paced myself — aimed for 3"]];
+const BREAKFAST="2 cottage cheese pots (226 g) + everything bagel seasoning";
+function shakeLine(date,kind){
+  return kind&&kind!=="off"?"Post-workout · protein shake":"Rest day · have your shake, whenever";
+}
 
 /* ================= DATES ================= */
 const mk=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
@@ -263,29 +265,11 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 
 function getPlan(date){
   const d=mk(key(date));
-  if(d<mk(START))return{phase:"BEFORE",title:"Starts Mon 17 Aug",sub:"",ex:[],kind:"off",
+  if(d<mk(START))return{phase:"BEFORE",title:"Starts Tue 8 Sep",sub:"",ex:[],kind:"off",
     days:dayDiff(mk(START),d)};
   const idx=Math.floor(dayDiff(d,mk(START))/7);
   if(idx>=16)return{phase:"DONE",title:"Cut complete",sub:"Reverse in over four weeks",ex:[],kind:"off"};
   const w=WEEKS[idx], g=d.getDay(), deload=w.n===8;
-  const travel = d>=mk(TRAVEL_FROM)&&d<=mk(TRAVEL_TO);
-
-  if(travel){
-    const tmap={1:{title:"Easy run 30′",ex:EASY30,kind:"travel",sub:"Morning, before the day starts. Only session you're likely to get."},
-                2:{title:"Conference",ex:[],kind:"off",sub:"No session. Walk between everything and call it done."},
-                3:{title:"Conference",ex:[],kind:"off",sub:"No session. Same again."},
-                4:{title:"Upper A",ex:UPPER_A,kind:"lift",sub:"Back on it. If you land late, push the whole week back a day."}};
-    const s=tmap[g]||{title:"Do what you can",ex:[],kind:"travel",sub:""};
-    return Object.assign({phase:"CUT",week:w,tag:"CONFERENCE",tone:"amber",travel:true,
-      note:"Annual conference. You're going to drink and you're going to eat badly — that's the job. Aim for three rather than pretending you'll have none, water between them, protein at every meal, and walk everywhere. Coming home level is a win."},s);
-  }
-
-  if(w.n===2){
-    const cmap={5:{title:"Lower A",ex:LOWER_A,kind:"lift",sub:""},
-                6:{title:"Upper B",ex:UPPER_B,kind:"lift",sub:"+300 cal refeed today."},
-                0:{title:"Lower B",ex:LOWER_B,kind:"lift",sub:"Waist AM. No rest day — the conference was it."}};
-    if(cmap[g])return Object.assign({phase:"CUT",week:w,note:w.note,tag:w.tag,tone:w.tone},cmap[g]);
-  }
 
   const iv=w.n%2===1?INT_A:INT_B;
   const map={1:{title:"Upper A",ex:UPPER_A,kind:"lift"},2:{title:"Easy run 45′",ex:EASY,kind:"run"},
@@ -332,10 +316,10 @@ function render(){
 function viewToday(date,p){
   const k=key(date), isToday=offset===0;
   const exDone=S.exercises[k]||{}, hab=S.habits[k]||{};
-  const set=p.travel?TRAVEL_HABITS:DAILY_HABITS;
+  const set=DAILY_HABITS;
   const done=set.filter(([id])=>hab[id]).length;
   const sessDone=!!S.sessions[k];
-  const measureDay=(date.getDay()===3||date.getDay()===0)&&p.phase==="CUT"&&!p.travel;
+  const measureDay=(date.getDay()===3||date.getDay()===0)&&p.phase==="CUT";
   const logged=S.measures.find(x=>x.date===k);
 
   let h=`<div class="stack">
@@ -347,14 +331,14 @@ function viewToday(date,p){
   if(p.phase==="BEFORE"){
     h+=`<div class="countdown"><span class="cd-num">${p.days}</span>
       <span class="cd-lbl">${p.days===1?"day":"days"} until week 1</span></div>
-      <section class="card"><h3 class="solo">Before Monday</h3><ul class="rules">
+      <section class="card"><h3 class="solo">Before tomorrow</h3><ul class="rules">
       <li>Baseline photos — front, side, back, same light</li>
       <li>Waist at the navel, fasted, written down</li>
       <li>Weight if you can get to a scale</li>
       <li>Big shop and a cook-up</li>
       <li>Start creatine now so the water bump lands before week 1</li>
       <li>Alcohol off from tonight</li></ul></section>
-      <div class="note-card">Nothing else to do. Don't start early and don't try to make up for the trip — you'll just arrive at Monday already tired of it.</div>`;
+      <div class="note-card">Nothing else to do. Don't start early — just get the baseline logged and start clean tomorrow.</div>`;
     if(measureDay||logged||true){h+=measureBlock(k,logged,"Log your baseline");}
     return h+`</div>`;
   }
@@ -378,19 +362,19 @@ function viewToday(date,p){
 
   if(p.note)h+=`<div class="note-card${p.tone==="amber"?" amber":""}">${esc(p.note)}</div>`;
 
-  h+=`<section class="card"><div class="card-head"><h3>${p.travel?"On the road":"Daily habits"}</h3>
+  h+=`<section class="card"><div class="card-head"><h3>Daily habits</h3>
     <span class="counter">${done}/${set.length}</span></div><div class="habits">`+
     set.map(([id,label])=>`<button class="habit${hab[id]?" on":""}" data-act="hab" data-id="${id}">
       <span class="hbox">${hab[id]?"✓":""}</span>${esc(label)}</button>`).join("")+`</div></section>`;
 
-  if(!p.travel&&p.phase!=="DONE"){
+  if(p.phase!=="DONE"){
     const m=MEALS[date.getDay()];
-    h+=`<section class="card"><div class="card-head"><h3>Eating today</h3>
-      ${m.light?'<span class="counter">chicken night · 2nd shake</span>':""}</div>
+    h+=`<section class="card"><div class="card-head"><h3>Eating today</h3></div>
+      <div class="meal"><span class="ml">B'fast</span><span class="mv">${esc(BREAKFAST)}</span></div>
       <div class="meal"><span class="ml">Lunch</span><span class="mv">${esc(m.lunch)}</span></div>
       <div class="meal"><span class="ml">Dinner</span><span class="mv">${esc(m.dinner)}</span></div>
       ${m.job?`<div class="job">${esc(m.job)}</div>`:""}
-      <div class="nightly">Before bed · build tomorrow's oat jar</div></section>`;
+      <div class="nightly">${shakeLine(date,p.kind)}</div></section>`;
   }
   if(measureDay||logged)h+=measureBlock(k,logged,"Measure this morning");
   return h+`</div>`;
@@ -408,7 +392,7 @@ function measureBlock(k,logged,title){
 
 function shortLabel(p){
   if(p.phase==="BEFORE")return"—";
-  if(p.kind==="off")return p.travel?"Conf":"Rest";
+  if(p.kind==="off")return"Rest";
   if(p.kind==="travel")return"Run";
   if(p.kind==="run")return"Easy"; if(p.kind==="hard")return"Int";
   return p.title.replace("Upper ","U").replace("Lower ","L");
@@ -418,10 +402,10 @@ function viewWeek(date){
   const start=addDays(date,-((date.getDay()+6)%7)), wp=getPlan(date), t=today();
   let h=`<div class="stack"><div class="card"><div class="card-head">
     <h3>${wp.phase==="CUT"?`Week ${wp.week.n} of 16`:wp.phase==="DONE"?"Complete":"Not started"}</h3>
-    ${wp.phase==="CUT"?`<span class="counter">${wp.week.target} lb target</span>`:""}</div><div class="wkgrid">`;
+    ${wp.phase==="CUT"&&wp.week.target?`<span class="counter">${wp.week.target} lb target</span>`:""}</div><div class="wkgrid">`;
   for(let i=0;i<7;i++){
     const d=addDays(start,i), p=getPlan(d), dn=!!S.sessions[key(d)], now=key(d)===key(t);
-    h+=`<button class="wkday ${p.travel&&p.kind!=="lift"?"travel":p.kind}${dn?" done":""}${now?" now":""}" data-act="goto" data-off="${dayDiff(d,t)}">
+    h+=`<button class="wkday ${p.kind}${dn?" done":""}${now?" now":""}" data-act="goto" data-off="${dayDiff(d,t)}">
       <span class="wkdow">${DOW[d.getDay()]}</span><span class="wkdatn">${d.getDate()}</span>
       <span class="wklabel">${esc(shortLabel(p))}</span>${dn?'<span class="wktick">✓</span>':""}</button>`;
   }
@@ -494,12 +478,11 @@ function viewFood(){
       <div class="dayline"><span class="dl">D</span><span class="dv">${esc(m.dinner)}</span></div>
       ${m.job?`<div class="dayjob">${esc(m.job)}</div>`:""}</div>`;
   }
-  h+=`</div><p class="fine" style="margin-top:12px">Sunday and Thursday are the light ones — rotisserie only carries about 35 g. Take a second shake those days. Monday is fine now the edamame is doing the work.</p></section>
+  h+=`</div></section>
 
   <section class="card"><h3 class="solo">Every day</h3><ul class="rules">
-    <li><b>Breakfast:</b> oat jar — 400 cal, 48 g protein</li>
-    <li><b>Build tomorrow's jar before bed.</b> Two minutes, one jar at a time.</li>
-    <li><b>Post-workout shake</b> — 80 cal, 20 g protein. Sunday is a rest day, so have it anyway.</li>
+    <li><b>Breakfast:</b> 2 cottage cheese pots + everything seasoning — ~160 cal, 24 g protein. No cooking.</li>
+    <li><b>Protein shake, every day.</b> Post-workout on training days. On rest days there's no trigger — just don't skip it.</li>
     <li><b>Half a tin of beans or chickpeas</b> with dinner. Non-negotiable — this is the fibre fix.</li>
     <li><b>Beans and chickpeas are interchangeable.</b> Chickpeas edge it — 10 g protein and 8 g fibre per half tin against 7 g and 6 g.</li>
     <li><b>Edamame counts as the legume.</b> A cup shelled is 18 g protein and 8 g fibre — better than either tin, so no beans needed on edamame nights.</li>
@@ -509,8 +492,7 @@ function viewFood(){
     <p class="formula">Protein &nbsp;+&nbsp; ½ rice or quinoa pouch &nbsp;+&nbsp; ½ tin beans &nbsp;+&nbsp; frozen veg</p>
     <p class="fine">Twenty minutes, one pan, same shape every night. Season by portion so day two doesn't taste like day one — chilli and cumin, then soy and garlic.</p></section>
 
-  <section class="card"><h3 class="solo">Three cooking jobs</h3><ul class="rules">
-    <li><b>Every night</b> — build tomorrow's oat jar. Two minutes.</li>
+  <section class="card"><h3 class="solo">Cooking jobs</h3><ul class="rules">
     <li><b>Sunday night</b> — strip rotisserie #1</li>
     <li><b>Monday night</b> — brown all 500 g beef, covers Tue and Wed</li>
     <li><b>Friday lunch</b> — brown all 500 g beef, covers Fri and Sat</li>
@@ -524,7 +506,8 @@ function viewFood(){
     <tr><td>Edamame, shelled</td><td>1 cup</td></tr>
     <tr><td>Baby potatoes</td><td>250 g</td></tr>
     <tr><td>Tuna, Sunday lunch</td><td>2 tins</td></tr>
-    <tr><td>Yogurt per week</td><td>2 × 750 g</td></tr>
+    <tr><td>Cottage cheese, breakfast</td><td>2 pots (226 g)</td></tr>
+    <tr><td>Cottage cheese per week</td><td>14 pots</td></tr>
   </tbody></table></section></div>`;
   return h;
 }
@@ -553,20 +536,25 @@ function viewPlan(){
     <tr><td>Max HR</td><td>189 bpm</td></tr></tbody></table>
     <p class="fine">145 is a ceiling, not a target — average 135–142. It never rises as you get fitter; your pace at 145 does.</p>
     <p class="fine">Interval numbers are targets, not ceilings. Drifting to 180 on the last reps is normal.</p>`);
-  h+=acc("travel","Conference · 24–27 Aug",`<p class="fine">Annual work conference. Drinking and bad food are part of the job — the plan bends around it rather than pretending otherwise.</p>
-    <ul class="rules"><li>Mon: easy run in the morning, before the day starts</li>
-    <li>Tue &amp; Wed: nothing. Walk between sessions and leave it there.</li>
-    <li>Thu–Sun: four lifts back to back once you're home</li>
-    <li>Protein at every meal — order it first, build the plate around it</li>
-    <li>Aim for three drinks, water in between. A target, not a cap.</li>
-    <li>Creatine travels with you</li><li>Don't track a thing</li></ul>
-    <p class="fine">Week 3 is the second tracking week, so nothing is lost by writing these days off. Expect the scale up a couple of pounds on the Friday — that's salt, alcohol and food weight, and it's gone by midweek.</p>`);
+  h+=acc("breakfast","Breakfast &amp; shake",`<p class="fine"><b>Breakfast, every day, no variation:</b> 2 cottage cheese pots (226 g) with everything bagel seasoning. About 160 cal / 24 g protein. No cooking, no batching, portion straight from single-serve tubs.</p>
+    <p class="fine"><b>Protein shake, every day.</b> Post-workout on training days — timing doesn't matter much, just have it. On rest days there's no natural trigger, so it's a standing reminder: have it at some point, whenever suits.</p>
+    <p class="fine">Between breakfast and the shake that's roughly 44 g of the day's 200 g target locked in before lunch even happens.</p>`);
   h+=acc("supps","Supplements",`<table class="tbl"><tbody>
     <tr><td>Creatine</td><td>5 g daily</td></tr><tr><td>Whey</td><td>Fill protein gaps</td></tr>
     <tr><td>Caffeine</td><td>100–200 mg pre</td></tr><tr><td>Vitamin D3</td><td>2,000–4,000 IU</td></tr></tbody></table>
     <p class="fine">Everything else is a waste of money. No supplement meaningfully moves fat loss.</p>`);
+  h+=acc("checkins","Check-in Sundays",`<p class="fine">Tracking is open-ended this time — no calibration cutoff. These are the days to actually look at the data instead of just logging it.</p>
+    <table class="tbl"><tbody>
+      <tr><td>Week 3 · Sun 27 Sep</td><td>First look</td></tr>
+      <tr><td>Week 6 · Sun 18 Oct</td><td>Second look</td></tr>
+      <tr><td>Week 9 · Sun 8 Nov</td><td>Diet break week</td></tr>
+      <tr><td>Week 12 · Sun 29 Nov</td><td>3-month photos</td></tr>
+      <tr><td>Week 15 · Sun 20 Dec</td><td>Final look before week 16</td></tr>
+    </tbody></table>
+    <p class="fine">Each one: compare the trailing 2-3 week average to the block before it. A single bad day means nothing — the average is the only thing worth reading.</p>`);
+
   h+=acc("stall","If it stalls",`<p class="fine">If the waist hasn't moved in three weeks (two-week average vs the two before):</p>
-    <ol class="rules num"><li>Audit the diet honestly for three days. This is the answer about 80% of the time.</li>
+    <ol class="rules num"><li>Pull the last two weeks of logs and check honestly — weekend drift, portion creep, and "it doesn't count" bites are the answer about 80% of the time. You have the data; use it.</li>
     <li>If it's genuinely clean, cut 150–200 cal from carbs.</li>
     <li>Wait two more weeks before changing anything else.</li></ol>
     <p class="warn">Do not add cardio as the first response. That's the loop that has failed you before.</p>`);
@@ -577,7 +565,7 @@ function viewPlan(){
     <li>A missed session is missed. Don't stack two into one day.</li></ul>`);
   h+=acc("weeks","All 16 weeks",`<div class="wklist">`+WEEKS.map(w=>
     `<div class="wkrow${w.tag?" flag":""}"><span class="wkn">${String(w.n).padStart(2,"0")}</span>
-     <span class="wkt">${w.target}</span><span class="wkx">${w.tag?`<b>${w.tag}</b> `:""}${esc(w.note)}</span></div>`).join("")+`</div>`);
+     <span class="wkt">${w.target?w.target:"—"}</span><span class="wkx">${w.tag?`<b>${w.tag}</b> `:""}${esc(w.note)}</span></div>`).join("")+`</div>`);
   const nSess=Object.values(S.sessions).filter(Boolean).length;
   h+=acc("data","Your data",`<p class="fine">Stored on this device only. Nothing is sent anywhere, so nothing syncs — back it up now and then.</p>
     <table class="tbl"><tbody><tr><td>Sessions logged</td><td>${nSess}</td></tr>
