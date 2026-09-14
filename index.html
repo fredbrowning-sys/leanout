@@ -246,7 +246,7 @@ const MEALS={
  6:{lunch:"Open — out, or eggs and beans",
     dinner:"Beef 250 g + baby potatoes 250 g + 1 cup edamame"}};
 
-const START="2026-09-08";
+const START="2026-09-14";
 const DAILY_HABITS=[["creatine","Creatine 5 g"],["protein","200 g protein"],["water","3.5 L water"],["steps","12k steps"],["kitchen","Kitchen closed after dinner"]];
 const BREAKFAST="2 cottage cheese pots (226 g) + everything bagel seasoning";
 function shakeLine(date,kind){
@@ -265,17 +265,17 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 
 function getPlan(date){
   const d=mk(key(date));
-  if(d<mk(START))return{phase:"BEFORE",title:"Starts Tue 8 Sep",sub:"",ex:[],kind:"off",
+  if(d<mk(START))return{phase:"BEFORE",title:"Starts Mon 14 Sep",sub:"",ex:[],kind:"off",
     days:dayDiff(mk(START),d)};
   const idx=Math.floor(dayDiff(d,mk(START))/7);
   if(idx>=16)return{phase:"DONE",title:"Cut complete",sub:"Reverse in over four weeks",ex:[],kind:"off"};
   const w=WEEKS[idx], g=d.getDay(), deload=w.n===8;
 
   const iv=w.n%2===1?INT_A:INT_B;
-  const map={1:{title:"Upper A",ex:UPPER_A,kind:"lift"},2:{title:"Easy run 45′",ex:EASY,kind:"run"},
-             3:{title:"Lower A",ex:LOWER_A,kind:"lift"},
-             4:deload?{title:"Easy run 45′",ex:EASY,kind:"run"}:{title:"Intervals",ex:iv,kind:"hard"},
-             5:{title:"Upper B",ex:UPPER_B,kind:"lift"},6:{title:"Lower B",ex:LOWER_B,kind:"lift"},
+  const map={1:{title:"Upper A",ex:UPPER_A,kind:"lift"},2:{title:"Lower A",ex:LOWER_A,kind:"lift"},
+             3:{title:"Upper B",ex:UPPER_B,kind:"lift"},4:{title:"Lower B",ex:LOWER_B,kind:"lift"},
+             5:{title:"Easy run 45′",ex:EASY,kind:"run"},
+             6:deload?{title:"Easy run 45′",ex:EASY,kind:"run"}:{title:"Intervals",ex:iv,kind:"hard"},
              0:{title:"Rest",ex:[],kind:"off"}};
   const sub=g===0?"Walk only. Waist AM. Meal prep.":g===6?"+300 cal refeed today.":g===3?"Waist AM.":deload?"Deload — halve every set.":"";
   return Object.assign({phase:"CUT",week:w,sub:sub,note:w.note,tag:w.tag,tone:w.tone,deload:deload},map[g]);
@@ -545,11 +545,12 @@ function viewPlan(){
     <p class="fine">Everything else is a waste of money. No supplement meaningfully moves fat loss.</p>`);
   h+=acc("checkins","Check-in Sundays",`<p class="fine">Tracking is open-ended this time — no calibration cutoff. These are the days to actually look at the data instead of just logging it.</p>
     <table class="tbl"><tbody>
-      <tr><td>Week 3 · Sun 27 Sep</td><td>First look</td></tr>
-      <tr><td>Week 6 · Sun 18 Oct</td><td>Second look</td></tr>
-      <tr><td>Week 9 · Sun 8 Nov</td><td>Diet break week</td></tr>
-      <tr><td>Week 12 · Sun 29 Nov</td><td>3-month photos</td></tr>
-      <tr><td>Week 15 · Sun 20 Dec</td><td>Final look before week 16</td></tr>
+      <tr><td>Week 1 · Sun 20 Sep</td><td>First week done</td></tr>
+      <tr><td>Week 3 · Sun 4 Oct</td><td>First look</td></tr>
+      <tr><td>Week 6 · Sun 25 Oct</td><td>Second look</td></tr>
+      <tr><td>Week 9 · Sun 15 Nov</td><td>Diet break week</td></tr>
+      <tr><td>Week 12 · Sun 6 Dec</td><td>3-month photos</td></tr>
+      <tr><td>Week 15 · Sun 27 Dec</td><td>Final look before week 16</td></tr>
     </tbody></table>
     <p class="fine">Each one: compare the trailing 2-3 week average to the block before it. A single bad day means nothing — the average is the only thing worth reading.</p>`);
 
