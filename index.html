@@ -71,6 +71,19 @@ h3.solo{margin-bottom:11px}
 
 .exlist{list-style:none;margin-top:14px;border-top:1px solid var(--hair)}
 .ex{display:grid;grid-template-columns:26px 1fr auto;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid var(--hair)}
+.exmain{display:flex;flex-direction:column;gap:2px;min-width:0}
+.exreps{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:-.01em}
+.exwt{min-width:54px;padding:8px 10px;border:1.5px solid var(--ink);background:#fff;font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink);border-radius:2px;line-height:1}
+.exwt.unset{border-color:var(--rule);border-style:dashed;color:var(--muted);font-weight:500}
+.ex.on .exwt{opacity:.55}
+.liftday{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 4px;padding-bottom:4px;border-bottom:1px solid var(--hair)}
+.liftday:first-of-type{margin-top:0}
+.liftrow{display:grid;grid-template-columns:1fr auto 52px;gap:10px;align-items:baseline;padding:7px 0;font-size:14px}
+.lname{color:#2a2e35}
+.lnow{font-family:var(--mono);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.ldelta{font-family:var(--mono);font-size:12.5px;font-weight:600;text-align:right;color:var(--muted)}
+.ldelta.up{color:var(--green)}
+.ldelta.down{color:var(--rust)}
 .exbox{width:25px;height:25px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;border-radius:2px}
 .ex.on .exbox{background:var(--green);border-color:var(--green)}
 .ex.on .exname{text-decoration:line-through;color:var(--muted)}
@@ -199,14 +212,11 @@ button{cursor:pointer}
 
 <script>
 /* ================= PLAN ================= */
-const UPPER_A=[["Bench press","4 × 6-8"],["Chest-supported row","4 × 8-10"],["Overhead press","3 × 8-10"],["Lat pulldown / pull-ups","3 × 8-12"],["Dumbbell curl","3 × 10-12"],["Tricep pushdown","3 × 10-12"]];
-const LOWER_A=[["Squat / leg press","4 × 6-8"],["Romanian deadlift","3 × 8-10"],["Bulgarian split squat","3 × 8-10 /leg"],["Leg curl","3 × 10-12"],["Calf raise","3 × 12-15"],["Plank / leg raise","3 sets"]];
-const UPPER_B=[["Incline dumbbell press","4 × 8-10"],["Single-arm DB row","4 × 8-10 /side"],["Lateral raise","3 × 12-15"],["Face pull","3 × 15"],["Hammer curl","3 × 10-12"],["Overhead tricep ext","3 × 10-12"]];
-const LOWER_B=[["Hip thrust","4 × 8-10"],["Leg press / hack squat","4 × 10-12"],["Back extension","3 × 12-15"],["Walking lunge","3 × 10 /leg"],["Leg extension","3 × 12-15"],["Ab wheel / crunch","3 sets"]];
+const PUSH=[["Bench press","4 × 6-8 · 1-2 RIR"],["Incline DB press","3 × 8-10 · 1-2 RIR"],["Overhead press","3 × 8-10 · 1-2 RIR"],["Pec deck flye","3 × 12-15 · last set FAIL"],["Cable lateral raise","4 × 12-15 · last set FAIL"],["Overhead tricep ext","3 × 10-12 · last set FAIL"],["Tricep pushdown","3 × 10-12 · last set FAIL"]];
+const PULL=[["Row machine","4 × 8-10 · 1-2 RIR"],["Lat pulldown","4 × 8-12 · 1-2 RIR"],["Single-arm DB row","3 × 10-12 /side · 1-2 RIR"],["Rear delt pec deck","3 × 12-15 · last set FAIL"],["Preacher curl","3 × 10-12 · last set FAIL"],["Hammer curl","3 × 10-12 · last set FAIL"]];
+const LEGS=[["Squat","4 × 6-8 · 1-2 RIR"],["Romanian deadlift","3 × 8-10 · 1-2 RIR"],["Leg press","3 × 10-12 · 1-2 RIR"],["Lying leg curl","3 × 10-12 · last set FAIL"],["Leg extension","3 × 12-15 · last set FAIL"],["Calf raise","3 × 12-15 · last set FAIL"],["Plank / leg raise","3 sets"]];
+const DELTS_ARMS=[["DB lateral raise","4 × 12-15 · last set FAIL"],["Rear delt pec deck","4 × 12-15 · last set FAIL"],["Pec deck flye","3 × 12-15 · last set FAIL"],["Row machine","3 × 10-12 · last set FAIL"],["Preacher curl","3 × 10-12 · last set FAIL"],["Overhead tricep ext","3 × 10-12 · last set FAIL"]];
 const EASY=[["45 min easy run","Cap 145 bpm"],["Walk the hills","Whatever keeps you under"]];
-const EASY30=[["30-40 min easy run","Cap 145 bpm"],["Explore the city","Nothing hard"]];
-const INT_A=[["Warm-up","10 min easy"],["6 × 90 sec hard","165-176 bpm"],["Recovery","90 sec walk"],["Cool-down","5 min"]];
-const INT_B=[["Warm-up","10 min easy"],["4 × 3 min hard","158-168 bpm"],["Recovery","2 min jog"],["Cool-down","5 min"]];
 
 const WEEKS=[
 {n:1,target:208,note:"First week back. Log everything, honestly — including the messy bits. Expect a fast drop; most of it is water."},
@@ -216,7 +226,7 @@ const WEEKS=[
 {n:5,target:202,note:"The hard stretch begins. Slower progress, more hunger. Nothing is wrong. This is the week you have quit before."},
 {n:6,target:201,note:"Second check-in. Compare this week's average to week 3's — that's the real signal, not the daily number.",tag:"REVIEW"},
 {n:7,target:199,note:"Last hard week before the break. Push the lifts — relief is scheduled."},
-{n:8,target:198,note:"Halve every set. Same weights, half the volume. No intervals. Diet unchanged. This is what makes weeks 10-16 possible.",tag:"DELOAD",tone:"deep"},
+{n:8,target:198,note:"Halve every set. Same weights, half the volume. Diet unchanged. This is what makes weeks 10-16 possible.",tag:"DELOAD",tone:"deep"},
 {n:9,target:199,note:"Seven days at maintenance. Protein and training unchanged. The scale will rise 2-3 lb of food and water — not fat. Also check-in three: look back over three weeks of logs while intake's relaxed.",tag:"DIET BREAK",tone:"deep"},
 {n:10,target:197,note:"Back to target. Strength and mood should be noticeably better than week 7."},
 {n:11,target:196,note:"Any social occasion this week — plan it, cap it, don't let it drift into two nights."},
@@ -271,11 +281,10 @@ function getPlan(date){
   if(idx>=16)return{phase:"DONE",title:"Cut complete",sub:"Reverse in over four weeks",ex:[],kind:"off"};
   const w=WEEKS[idx], g=d.getDay(), deload=w.n===8;
 
-  const iv=w.n%2===1?INT_A:INT_B;
-  const map={1:{title:"Upper A",ex:UPPER_A,kind:"lift"},2:{title:"Lower A",ex:LOWER_A,kind:"lift"},
-             3:{title:"Upper B",ex:UPPER_B,kind:"lift"},4:{title:"Lower B",ex:LOWER_B,kind:"lift"},
+  const map={1:{title:"Push",ex:PUSH,kind:"lift"},2:{title:"Pull",ex:PULL,kind:"lift"},
+             3:{title:"Legs",ex:LEGS,kind:"lift"},4:{title:"Delts + Arms",ex:DELTS_ARMS,kind:"lift"},
              5:{title:"Easy run 45′",ex:EASY,kind:"run"},
-             6:deload?{title:"Easy run 45′",ex:EASY,kind:"run"}:{title:"Intervals",ex:iv,kind:"hard"},
+             6:{title:"Easy run 45′",ex:EASY,kind:"run"},
              0:{title:"Rest",ex:[],kind:"off"}};
   const sub=g===0?"Walk only. Waist AM. Meal prep.":g===6?"+300 cal refeed today.":g===3?"Waist AM.":deload?"Deload — halve every set.":"";
   return Object.assign({phase:"CUT",week:w,sub:sub,note:w.note,tag:w.tag,tone:w.tone,deload:deload},map[g]);
@@ -283,7 +292,7 @@ function getPlan(date){
 
 /* ================= STORAGE ================= */
 const SKEY="delta:v1", OLD="leanout:v1";
-const BLANK=()=>({sessions:{},habits:{},exercises:{},measures:[],backedUp:null});
+const BLANK=()=>({sessions:{},habits:{},exercises:{},measures:[],weights:{},backedUp:null});
 let mem=null;
 function load(){
   try{
@@ -353,10 +362,17 @@ function viewToday(date,p){
     ${p.kind!=="off"?`<button class="bigcheck${sessDone?" on":""}" data-act="sess">${sessDone?"✓":""}</button>`:""}
     </div>`;
   if(p.ex&&p.ex.length){
-    h+=`<ul class="exlist">`+p.ex.map((e,i)=>
-      `<li class="ex${exDone[i]?" on":""}" data-act="ex" data-i="${i}">
-        <span class="exbox">${exDone[i]?"✓":""}</span><span class="exname">${esc(e[0])}</span>
-        <span class="exdetail">${esc(e[1])}</span></li>`).join("")+`</ul>`;
+    h+=`<ul class="exlist">`+p.ex.map((e,i)=>{
+      const wRec=(S.weights||{})[e[0]];
+      const wNow=wRec&&wRec.current!=null?wRec.current:null;
+      return `<li class="ex${exDone[i]?" on":""}">
+        <span class="exbox" data-act="ex" data-i="${i}">${exDone[i]?"✓":""}</span>
+        <div class="exmain" data-act="ex" data-i="${i}">
+          <span class="exname">${esc(e[0])}</span>
+          <span class="exreps">${esc(e[1])}</span>
+        </div>
+        <button class="exwt${wNow==null?" unset":""}" data-act="wt" data-ex="${esc(e[0])}">${wNow==null?"+":wNow}</button>
+      </li>`;}).join("")+`</ul>`;
   }
   h+=`</section>`;
 
@@ -412,7 +428,7 @@ function viewWeek(date){
   h+=`</div></div>`;
   if(wp.note)h+=`<div class="note-card${wp.tone==="amber"?" amber":""}">${esc(wp.note)}</div>`;
   h+=`<section class="card"><h3 class="solo">Weekly non-negotiables</h3><ul class="rules">
-    <li>4 lifts · 2 easy runs · 1 interval session</li><li>200 g protein, 6 of 7 days</li>
+    <li>4 lifts · 2 easy runs</li><li>200 g protein, 6 of 7 days</li>
     <li>12k+ steps daily average</li><li>Alcohol: one occasion, maximum</li>
     <li>7+ hours sleep, 6 of 7 nights</li><li>Creatine every single day</li>
     <li>Kitchen closed after dinner, nightly</li><li>Waist measured Wednesday and Sunday</li>
@@ -461,6 +477,35 @@ function viewProgress(){
       <label class="field"><span>Weight (lb)</span><input type="number" inputmode="decimal" step="0.1" id="qg"></label>
       <button class="save" data-act="qsave">Save</button></div></section>`;
   } else h+=`<button class="ghost" data-act="qopen">+ Log a measurement</button>`;
+  // ---- lifts ----
+  const ALL_LIFTS=[["Push",PUSH],["Pull",PULL],["Legs",LEGS],["Delts + Arms",DELTS_ARMS]];
+  const W=S.weights||{};
+  const logged=Object.keys(W).filter(k=>W[k]&&W[k].current!=null).length;
+  h+=`<section class="card"><div class="card-head"><h3>Lifts</h3>
+    <span class="counter">${logged} logged</span></div>`;
+  if(!logged){
+    h+=`<p class="empty">Tap the weight button on any exercise to log what you used. Once there's history, the change since your first session shows here.</p>`;
+  } else {
+    ALL_LIFTS.forEach(([day,list])=>{
+      const rows=list.filter(e=>W[e[0]]&&W[e[0]].current!=null);
+      if(!rows.length)return;
+      h+=`<div class="liftday">${esc(day)}</div>`;
+      rows.forEach(e=>{
+        const r=W[e[0]], hist=r.history||[];
+        const first=hist.length?hist[0].w:r.current;
+        const delta=r.current-first;
+        const sign=delta>0?"+":"";
+        h+=`<div class="liftrow">
+          <span class="lname">${esc(e[0])}</span>
+          <span class="lnow">${r.current}</span>
+          <span class="ldelta${delta>0?" up":delta<0?" down":""}">${hist.length>1?sign+delta:"—"}</span>
+        </div>`;
+      });
+    });
+    h+=`<p class="fine" style="margin-top:10px">Change is against your first logged session for that exercise.</p>`;
+  }
+  h+=`</section>`;
+
   h+=`<div class="note-card">The scale is the rumour, the waist is the metric. Expect about 0.5 cm a week, so compare two-week blocks rather than single readings.</div>`;
   return h+`</div>`;
 }
@@ -531,11 +576,9 @@ function viewPlan(){
     <li>Saturday refeed: +300 cal from carbs</li></ul>`);
   h+=acc("zones","Heart rate zones",`<p class="warn">Whoop's "Zone 2" is not the Zone 2 you want. Easy running sits in Whoop Zone 1, upper half.</p>
     <table class="tbl"><tbody><tr><td>Easy runs</td><td>Cap 145 bpm</td></tr>
-    <tr><td>90-sec intervals</td><td>165–176 bpm</td></tr>
-    <tr><td>3-min intervals</td><td>158–168 bpm</td></tr>
     <tr><td>Max HR</td><td>189 bpm</td></tr></tbody></table>
     <p class="fine">145 is a ceiling, not a target — average 135–142. It never rises as you get fitter; your pace at 145 does.</p>
-    <p class="fine">Interval numbers are targets, not ceilings. Drifting to 180 on the last reps is normal.</p>`);
+`);
   h+=acc("breakfast","Breakfast & shake",`<p class="fine"><b>Breakfast, every day, no variation:</b> 2 cottage cheese pots (226 g) with everything bagel seasoning. About 160 cal / 24 g protein. No cooking, no batching, portion straight from single-serve tubs.</p>
     <p class="fine"><b>Protein shake, every day.</b> Post-workout on training days — timing doesn't matter much, just have it. On rest days there's no natural trigger, so it's a standing reminder: have it at some point, whenever suits.</p>
     <p class="fine">Between breakfast and the shake that's roughly 44 g of the day's 200 g target locked in before lunch even happens.</p>`);
@@ -543,6 +586,11 @@ function viewPlan(){
     <tr><td>Creatine</td><td>5 g daily</td></tr><tr><td>Whey</td><td>Fill protein gaps</td></tr>
     <tr><td>Caffeine</td><td>100–200 mg pre</td></tr><tr><td>Vitamin D3</td><td>2,000–4,000 IU</td></tr></tbody></table>
     <p class="fine">Everything else is a waste of money. No supplement meaningfully moves fat loss.</p>`);
+  h+=acc("effort","How hard to push",`<p class="fine"><b>Compounds — 1-2 RIR.</b> Bench, squat, overhead press, RDL, rows, incline press. Stop when you could manage one or two more clean reps. These cost the most systemic fatigue per set, and failing on them repeatedly eats into the volume you can recover from across the rest of the week.</p>
+    <p class="fine"><b>Isolations — last set to failure.</b> Pec deck, lateral raises, preacher curl, pushdowns, leg curl, leg extension, rear delt, calves. Earlier sets at 1-2 RIR, final set until you genuinely cannot complete another rep. Low systemic cost, and this is where the extra stimulus actually pays.</p>
+    <p class="fine">Volume is the driver, not failure. 10-20 hard sets per muscle per week is the range that matters — going to failure everywhere reduces total weekly volume by wrecking recovery, which works against the goal.</p>
+    <p class="warn">Progression: when you hit the top of the rep range at a given weight across all sets, add weight and drop back to the bottom of the range.</p>`);
+
   h+=acc("checkins","Check-in Sundays",`<p class="fine">Tracking is open-ended this time — no calibration cutoff. These are the days to actually look at the data instead of just logging it.</p>
     <table class="tbl"><tbody>
       <tr><td>Week 1 · Sun 20 Sep</td><td>First week done</td></tr>
@@ -561,7 +609,7 @@ function viewPlan(){
     <p class="warn">Do not add cardio as the first response. That's the loop that has failed you before.</p>`);
   h+=acc("swap","Swapping days",`<ul class="rules"><li>Weekly totals are what matter, not the order</li>
     <li>48 hours between Upper A and Upper B, same for the lower days</li>
-    <li>No intervals the day before a heavy lower session</li>
+    <li>Keep both runs genuinely easy — under 145 bpm</li>
     <li>Rest day floats — put it where the week is busiest</li>
     <li>A missed session is missed. Don't stack two into one day.</li></ul>`);
   h+=acc("weeks","All 16 weeks",`<div class="wklist">`+WEEKS.map(w=>
@@ -571,6 +619,7 @@ function viewPlan(){
   h+=acc("data","Your data",`<p class="fine">Stored on this device only. Nothing is sent anywhere, so nothing syncs — back it up now and then.</p>
     <table class="tbl"><tbody><tr><td>Sessions logged</td><td>${nSess}</td></tr>
     <tr><td>Measurements</td><td>${S.measures.length}</td></tr>
+    <tr><td>Lifts logged</td><td>${Object.keys(S.weights||{}).length}</td></tr>
     <tr><td>Last backup</td><td>${S.backedUp?esc(S.backedUp):"never"}</td></tr></tbody></table>
     <button class="ghost" data-act="export">Copy backup to clipboard</button>
     <button class="ghost" data-act="import">Restore from a backup</button>
@@ -594,6 +643,20 @@ document.getElementById("main").addEventListener("click",e=>{
   else if(a==="sess"){S.sessions[k]=!S.sessions[k];save();}
   else if(a==="ex"){const i=el.dataset.i;S.exercises[k]=S.exercises[k]||{};S.exercises[k][i]=!S.exercises[k][i];save();}
   else if(a==="hab"){const id=el.dataset.id;S.habits[k]=S.habits[k]||{};S.habits[k][id]=!S.habits[k][id];save();}
+  else if(a==="wt"){
+    const name=el.dataset.ex;
+    S.weights=S.weights||{};
+    const rec=S.weights[name]||{current:null,history:[]};
+    const raw=window.prompt(name+"\n\nWeight used today"+(rec.current!=null?"  (last: "+rec.current+")":"")+":",
+                            rec.current!=null?rec.current:"");
+    if(raw===null)return;
+    const v=parseFloat(raw);
+    if(isNaN(v)||v<0){toast("Enter a number");return;}
+    rec.current=v;
+    rec.history=(rec.history||[]).filter(x=>x.d!==k).concat([{d:k,w:v}]).sort((x,y)=>x.d<y.d?-1:1);
+    S.weights[name]=rec;
+    save();
+  }
   else if(a==="acc")accOpen=accOpen===el.dataset.id?"":el.dataset.id;
   else if(a==="qopen")quickOpen=true;
   else if(a==="msave"||a==="qsave"){
@@ -621,7 +684,7 @@ document.getElementById("main").addEventListener("click",e=>{
     try{
       const p=JSON.parse(raw.trim());if(!p||typeof p!=="object")throw 0;
       S={sessions:p.sessions||{},habits:p.habits||{},exercises:p.exercises||{},
-         measures:Array.isArray(p.measures)?p.measures:[],backedUp:p.backedUp||null};
+         measures:Array.isArray(p.measures)?p.measures:[],weights:p.weights||{},backedUp:p.backedUp||null};
       save();toast(`Restored — ${S.measures.length} measurements`);
     }catch(err){toast("That doesn't look like a backup");return;}
   }
