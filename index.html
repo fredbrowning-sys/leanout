@@ -93,12 +93,7 @@ h3.solo{margin-bottom:11px}
 .note-card{background:var(--tint);border-left:5px solid var(--signal);padding:13px 15px;font-size:14.5px;line-height:1.5}
 .note-card.amber{background:var(--warmtint);border-left-color:var(--warm)}
 
-.habits{display:flex;flex-direction:column;gap:8px}
-.habit{display:flex;align-items:center;gap:11px;padding:13px;width:100%;border:1.5px solid var(--rule);background:#fff;font-size:15px;font-weight:500;text-align:left;color:var(--ink);font-family:var(--sans);border-radius:2px}
-.habit.on{background:#f6fbf7;border-color:var(--green)}
-.hbox{width:25px;height:25px;flex-shrink:0;border:2px solid var(--ink);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff}
-.habit.on .hbox{background:var(--green);border-color:var(--green)}
-
+.habit.on 
 .measure-hint{font-size:13.5px;color:var(--muted);margin-bottom:12px}
 .inputs{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
 .field{flex:1;min-width:118px;display:block}
@@ -163,24 +158,8 @@ h3.solo{margin-bottom:11px}
 .cd-num{font-family:var(--disp);font-weight:700;font-size:64px;line-height:.95;display:block}
 .cd-lbl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#e0cdd2}
 
-.meal{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--hair);align-items:baseline}
-.ml{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.mv{font-size:15.5px;font-weight:500;line-height:1.35}
-.job{margin-top:11px;padding:10px 12px;background:var(--tint);border-left:4px solid var(--signal);font-size:14px;line-height:1.4}
 
-.nightly{margin-top:10px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.mealgrid{display:flex;flex-direction:column}
-.dayblock{padding:11px 0;border-bottom:1px solid var(--hair)}
-.dayblock.now{background:var(--tint);padding:11px 10px;margin:0 -10px;border-bottom-color:var(--rule)}
-.dayhead{font-family:var(--disp);font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:flex;align-items:baseline;gap:9px}
-.dayblock.now .dayhead{color:var(--signal)}
-.lightflag{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.dayline{display:grid;grid-template-columns:18px 1fr;gap:8px;padding:3px 0;align-items:baseline}
-.dl{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted)}
-.dv{font-size:14px;line-height:1.4}
-.dayjob{margin-top:7px;margin-left:26px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--signal)}
-.formula{font-family:var(--disp);font-weight:600;font-size:19px;line-height:1.3;text-transform:uppercase;letter-spacing:.02em;margin-bottom:9px}
-
+.dayblock.now 
 .tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-top:1.5px solid var(--rule);padding-bottom:env(safe-area-inset-bottom)}
 .tab{padding:14px 2px 15px;background:none;border:none;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:3px solid transparent;margin-top:-1.5px}
 .tab.on{color:var(--ink);border-top-color:var(--signal)}
@@ -236,32 +215,8 @@ const WEEKS=[
 {n:15,target:190,note:"Fifth check-in. One left after this — look at the full run from week 1.",tag:"REVIEW"},
 {n:16,target:189,note:"Final photos, waist, weight. Then stop cutting and reverse in over four weeks.",tag:"FINISH",tone:"deep"}];
 
-const MEALS={
- 0:{lunch:"2 tins tuna + ½ tin chickpeas + bagged salad + balsamic",
-    dinner:"Rotisserie chicken + ½ quinoa pouch + ½ tin chickpeas + broccoli",
-    job:"Shop · strip the chicken"},
- 1:{lunch:"Work cafeteria",
-    dinner:"Rotisserie leftovers + ½ rice pouch + 1 cup edamame",
-    job:"Brown all 500 g beef tonight"},
- 2:{lunch:"Work cafeteria",
-    dinner:"Beef 250 g + ½ quinoa pouch + ½ tin black beans + broccoli"},
- 3:{lunch:"Work cafeteria",
-    dinner:"Beef 250 g + ½ rice pouch + 1 cup edamame",
-    job:"Shop · strip rotisserie #2"},
- 4:{lunch:"Work cafeteria",
-    dinner:"Rotisserie #2 + ½ quinoa pouch + ½ tin black beans + broccoli"},
- 5:{lunch:"Rotisserie leftovers + ½ rice pouch + salad",
-    dinner:"Beef 250 g + ½ quinoa pouch + ½ tin chickpeas + broccoli",
-    job:"Brown all 500 g beef at lunch"},
- 6:{lunch:"Open — out, or eggs and beans",
-    dinner:"Beef 250 g + baby potatoes 250 g + 1 cup edamame"}};
-
 const START="2026-09-14";
 const DAILY_HABITS=[["creatine","Creatine 5 g"],["protein","200 g protein"],["water","3.5 L water"],["steps","12k steps"],["kitchen","Kitchen closed after dinner"]];
-const BREAKFAST="2 cottage cheese pots (226 g) + everything bagel seasoning";
-function shakeLine(date,kind){
-  return kind&&kind!=="off"?"Post-workout · protein shake":"Rest day · have your shake, whenever";
-}
 
 /* ================= DATES ================= */
 const mk=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
@@ -324,9 +279,8 @@ function render(){
 
 function viewToday(date,p){
   const k=key(date), isToday=offset===0;
-  const exDone=S.exercises[k]||{}, hab=S.habits[k]||{};
+  const exDone=S.exercises[k]||{};
   const set=DAILY_HABITS;
-  const done=set.filter(([id])=>hab[id]).length;
   const sessDone=!!S.sessions[k];
   const measureDay=(date.getDay()===3||date.getDay()===0)&&p.phase==="CUT";
   const logged=S.measures.find(x=>x.date===k);
@@ -378,20 +332,9 @@ function viewToday(date,p){
 
   if(p.note)h+=`<div class="note-card${p.tone==="amber"?" amber":""}">${esc(p.note)}</div>`;
 
-  h+=`<section class="card"><div class="card-head"><h3>Daily habits</h3>
-    <span class="counter">${done}/${set.length}</span></div><div class="habits">`+
-    set.map(([id,label])=>`<button class="habit${hab[id]?" on":""}" data-act="hab" data-id="${id}">
-      <span class="hbox">${hab[id]?"✓":""}</span>${esc(label)}</button>`).join("")+`</div></section>`;
+  h+=`<section class="card"><div class="card-head"><h3>Daily habits</h3></div><ul class="rules">`+
+    set.map(([id,label])=>`<li>${esc(label)}</li>`).join("")+`</ul></section>`;
 
-  if(p.phase!=="DONE"){
-    const m=MEALS[date.getDay()];
-    h+=`<section class="card"><div class="card-head"><h3>Eating today</h3></div>
-      <div class="meal"><span class="ml">B'fast</span><span class="mv">${esc(BREAKFAST)}</span></div>
-      <div class="meal"><span class="ml">Lunch</span><span class="mv">${esc(m.lunch)}</span></div>
-      <div class="meal"><span class="ml">Dinner</span><span class="mv">${esc(m.dinner)}</span></div>
-      ${m.job?`<div class="job">${esc(m.job)}</div>`:""}
-      <div class="nightly">${shakeLine(date,p.kind)}</div></section>`;
-  }
   if(measureDay||logged)h+=measureBlock(k,logged,"Measure this morning");
   return h+`</div>`;
 }
@@ -511,50 +454,17 @@ function viewProgress(){
 }
 
 function viewFood(){
-  const t=today().getDay();
-  const D=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-  let h=`<div class="stack">
-  <section class="card"><h3 class="solo">The week</h3><div class="mealgrid">`;
-  for(let i=1;i<=7;i++){
-    const d=i%7, m=MEALS[d], now=d===t;
-    h+=`<div class="dayblock${now?" now":""}">
-      <div class="dayhead">${D[d]}${m.light?'<span class="lightflag">2nd shake</span>':""}</div>
-      <div class="dayline"><span class="dl">L</span><span class="dv">${esc(m.lunch)}</span></div>
-      <div class="dayline"><span class="dl">D</span><span class="dv">${esc(m.dinner)}</span></div>
-      ${m.job?`<div class="dayjob">${esc(m.job)}</div>`:""}</div>`;
-  }
-  h+=`</div></section>
-
-  <section class="card"><h3 class="solo">Every day</h3><ul class="rules">
-    <li><b>Breakfast:</b> 2 cottage cheese pots + everything seasoning — ~160 cal, 24 g protein. No cooking.</li>
-    <li><b>Protein shake, every day.</b> Post-workout on training days. On rest days there's no trigger — just don't skip it.</li>
-    <li><b>Half a tin of beans or chickpeas</b> with dinner. Non-negotiable — this is the fibre fix.</li>
-    <li><b>Beans and chickpeas are interchangeable.</b> Chickpeas edge it — 10 g protein and 8 g fibre per half tin against 7 g and 6 g.</li>
-    <li><b>Edamame counts as the legume.</b> A cup shelled is 18 g protein and 8 g fibre — better than either tin, so no beans needed on edamame nights.</li>
-  </ul></section>
-
-  <section class="card"><h3 class="solo">Dinner formula</h3>
-    <p class="formula">Protein &nbsp;+&nbsp; ½ rice or quinoa pouch &nbsp;+&nbsp; ½ tin beans &nbsp;+&nbsp; frozen veg</p>
-    <p class="fine">Twenty minutes, one pan, same shape every night. Season by portion so day two doesn't taste like day one — chilli and cumin, then soy and garlic.</p></section>
-
-  <section class="card"><h3 class="solo">Cooking jobs</h3><ul class="rules">
-    <li><b>Sunday night</b> — strip rotisserie #1</li>
-    <li><b>Monday night</b> — brown all 500 g beef, covers Tue and Wed</li>
-    <li><b>Friday lunch</b> — brown all 500 g beef, covers Fri and Sat</li>
-  </ul>
-  <p class="fine">Wednesday: strip rotisserie #2 the night you buy it. Off the bone it keeps better and takes less fridge space.</p></section>
-
-  <section class="card"><h3 class="solo">Portions</h3><table class="tbl"><tbody>
-    <tr><td>Beef per meal</td><td>250 g</td></tr>
-    <tr><td>Rice / quinoa pouch</td><td>½ (113 g)</td></tr>
-    <tr><td>Beans or chickpeas</td><td>½ tin</td></tr>
-    <tr><td>Edamame, shelled</td><td>1 cup</td></tr>
-    <tr><td>Baby potatoes</td><td>250 g</td></tr>
-    <tr><td>Tuna, Sunday lunch</td><td>2 tins</td></tr>
-    <tr><td>Cottage cheese, breakfast</td><td>2 pots (226 g)</td></tr>
-    <tr><td>Cottage cheese per week</td><td>14 pots</td></tr>
-  </tbody></table></section></div>`;
-  return h;
+  return `<div class="stack">
+  <section class="card"><h3 class="solo">Daily targets</h3><table class="tbl"><tbody>
+    <tr><td>Calories</td><td>2,250</td></tr>
+    <tr><td>Protein</td><td>200 g</td></tr>
+    <tr><td>Carbs</td><td>~205 g</td></tr>
+    <tr><td>Fat</td><td>70 g</td></tr>
+    <tr><td>Fibre</td><td>30 g</td></tr>
+    <tr><td>Water</td><td>3.5 L</td></tr>
+  </tbody></table>
+  <p class="fine" style="margin-top:10px">Saturday: +300 cal from carbs. Planned refeed, not a slip.</p>
+  <p class="fine">Priority order when something has to give: protein first, then calories, then fat.</p></section></div>`;
 }
 
 function acc(id,title,inner){
@@ -642,7 +552,6 @@ document.getElementById("main").addEventListener("click",e=>{
   else if(a==="goto"){offset=parseInt(el.dataset.off,10);tab="today";}
   else if(a==="sess"){S.sessions[k]=!S.sessions[k];save();}
   else if(a==="ex"){const i=el.dataset.i;S.exercises[k]=S.exercises[k]||{};S.exercises[k][i]=!S.exercises[k][i];save();}
-  else if(a==="hab"){const id=el.dataset.id;S.habits[k]=S.habits[k]||{};S.habits[k][id]=!S.habits[k][id];save();}
   else if(a==="wt"){
     const name=el.dataset.ex;
     S.weights=S.weights||{};
