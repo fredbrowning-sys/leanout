@@ -93,7 +93,6 @@ h3.solo{margin-bottom:11px}
 .note-card{background:var(--tint);border-left:5px solid var(--signal);padding:13px 15px;font-size:14.5px;line-height:1.5}
 .note-card.amber{background:var(--warmtint);border-left-color:var(--warm)}
 
-.habit.on 
 .measure-hint{font-size:13.5px;color:var(--muted);margin-bottom:12px}
 .inputs{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
 .field{flex:1;min-width:118px;display:block}
@@ -159,7 +158,6 @@ h3.solo{margin-bottom:11px}
 .cd-lbl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#e0cdd2}
 
 
-.dayblock.now 
 .tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;width:100%;background:#fff;border-top:1.5px solid var(--rule);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box}
 .tab{flex:1 1 0;min-width:0;display:block;text-align:center;padding:14px 1px 15px;background:none;border:none;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--muted);border-top:3px solid transparent;margin-top:-1.5px;white-space:nowrap;overflow:hidden}
 .tab.on{color:var(--ink);border-top-color:var(--signal)}
@@ -532,7 +530,7 @@ function viewPlan(){
     <tr><td>Measurements</td><td>${S.measures.length}</td></tr>
     <tr><td>Lifts logged</td><td>${Object.keys(S.weights||{}).length}</td></tr>
     <tr><td>Last backup</td><td>${S.backedUp?esc(S.backedUp):"never"}</td></tr>
-    <tr><td>App version</td><td>v19</td></tr></tbody></table>
+    <tr><td>App version</td><td>v20</td></tr></tbody></table>
     <button class="ghost" data-act="export">Copy backup to clipboard</button>
     <button class="ghost" data-act="import">Restore from a backup</button>
     <p class="fine">Paste the backup somewhere it survives — Notes, an email to yourself. To restore, copy that text and tap Restore.</p>
