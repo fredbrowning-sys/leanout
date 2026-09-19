@@ -194,7 +194,8 @@ const PUSH=[["Bench press","4 × 6-8 · 1-2 RIR"],["Incline DB press","3 × 8-10
 const PULL=[["Row machine","4 × 8-10 · 1-2 RIR"],["Lat pulldown","4 × 8-12 · 1-2 RIR"],["Single-arm DB row","3 × 10-12 /side · 1-2 RIR"],["Rear delt pec deck","3 × 12-15 · last set FAIL"],["Preacher curl","3 × 10-12 · last set FAIL"],["Hammer curl","3 × 10-12 · last set FAIL"]];
 const LEGS=[["Squat","4 × 6-8 · 1-2 RIR"],["Romanian deadlift","3 × 8-10 · 1-2 RIR"],["Leg press","3 × 10-12 · 1-2 RIR"],["Lying leg curl","3 × 10-12 · last set FAIL"],["Leg extension","3 × 12-15 · last set FAIL"],["Calf raise","3 × 12-15 · last set FAIL"],["Plank / leg raise","3 sets"]];
 const DELTS_ARMS=[["DB lateral raise","4 × 12-15 · last set FAIL"],["Rear delt pec deck","4 × 12-15 · last set FAIL"],["Pec deck flye","3 × 12-15 · last set FAIL"],["Row machine","3 × 10-12 · last set FAIL"],["Preacher curl","3 × 10-12 · last set FAIL"],["Overhead tricep ext","3 × 10-12 · last set FAIL"]];
-const EASY=[["45 min easy run","Cap 145 bpm"],["Walk the hills","Whatever keeps you under"]];
+const RUN40=[["40 min run","Run how you feel"],["No HR cap","Effort, not a number"],["Log the distance","Same route each week"]];
+const RUN30=[["30 min run","Run how you feel"],["No HR cap","Shorter — 2nd day running"],["Log the distance",""]];
 
 const WEEKS=[
 {n:1,target:208,note:"First week back. Log everything, honestly — including the messy bits. Expect a fast drop; most of it is water."},
@@ -237,8 +238,8 @@ function getPlan(date){
 
   const map={1:{title:"Push",ex:PUSH,kind:"lift"},2:{title:"Pull",ex:PULL,kind:"lift"},
              3:{title:"Legs",ex:LEGS,kind:"lift"},4:{title:"Delts + Arms",ex:DELTS_ARMS,kind:"lift"},
-             5:{title:"Easy run 45′",ex:EASY,kind:"run"},
-             6:{title:"Easy run 45′",ex:EASY,kind:"run"},
+             5:{title:"Run 40′",ex:RUN40,kind:"run"},
+             6:{title:"Run 30′",ex:RUN30,kind:"run"},
              0:{title:"Rest",ex:[],kind:"off"}};
   const sub=g===0?"Walk only. Waist AM. Meal prep.":g===6?"+300 cal refeed today.":g===3?"Waist AM.":deload?"Deload — halve every set.":"";
   return Object.assign({phase:"CUT",week:w,sub:sub,note:w.note,tag:w.tag,tone:w.tone,deload:deload},map[g]);
@@ -483,11 +484,15 @@ function viewPlan(){
     <li>Nothing with calories except water, coffee, tea</li><li>No seconds. One plate.</li>
     <li>Kitchen closes after dinner</li><li>Vegetables at lunch and dinner</li>
     <li>Saturday refeed: +300 cal from carbs</li></ul>`);
-  h+=acc("zones","Heart rate zones",`<p class="warn">Whoop's "Zone 2" is not the Zone 2 you want. Easy running sits in Whoop Zone 1, upper half.</p>
-    <table class="tbl"><tbody><tr><td>Easy runs</td><td>Cap 145 bpm</td></tr>
-    <tr><td>Max HR</td><td>189 bpm</td></tr></tbody></table>
-    <p class="fine">145 is a ceiling, not a target — average 135–142. It never rises as you get fitter; your pace at 145 does.</p>
-`);
+  h+=acc("running","Running",`<table class="tbl"><tbody>
+    <tr><td>Friday</td><td>40 min</td></tr>
+    <tr><td>Saturday</td><td>30 min</td></tr>
+    <tr><td>Sunday</td><td>Off</td></tr>
+    </tbody></table>
+    <p class="fine"><b>No HR cap.</b> Run at whatever effort feels right. You naturally settle in Zone 4, which is fine — the cap existed to protect an interval session that no longer exists.</p>
+    <p class="fine"><b>Time, not distance.</b> Calorie burn tracks duration. A fixed 5k shrinks as you get faster; 40 minutes doesn't.</p>
+    <p class="fine"><b>Log the distance each week.</b> Same rough route so it's comparable. That number improving is the cleanest progress signal you have outside the tape.</p>
+    <p class="warn">Watch Monday. Two hard runs plus four lifting days in a deficit is real load — if Push starts feeling flat, shorten Saturday before touching anything else.</p>`);
   h+=acc("breakfast","Breakfast & shake",`<p class="fine"><b>Breakfast, every day, no variation:</b> 2 cottage cheese pots (226 g) with everything bagel seasoning. About 160 cal / 24 g protein. No cooking, no batching, portion straight from single-serve tubs.</p>
     <p class="fine"><b>Protein shake, every day.</b> Post-workout on training days — timing doesn't matter much, just have it. On rest days there's no natural trigger, so it's a standing reminder: have it at some point, whenever suits.</p>
     <p class="fine">Between breakfast and the shake that's roughly 44 g of the day's 200 g target locked in before lunch even happens.</p>`);
@@ -518,7 +523,7 @@ function viewPlan(){
     <p class="warn">Do not add cardio as the first response. That's the loop that has failed you before.</p>`);
   h+=acc("swap","Swapping days",`<ul class="rules"><li>Weekly totals are what matter, not the order</li>
     <li>48 hours between Upper A and Upper B, same for the lower days</li>
-    <li>Keep both runs genuinely easy — under 145 bpm</li>
+    <li>Runs are Fri and Sat — no HR cap, run how you feel</li>
     <li>Rest day floats — put it where the week is busiest</li>
     <li>A missed session is missed. Don't stack two into one day.</li></ul>`);
   h+=acc("weeks","All 16 weeks",`<div class="wklist">`+WEEKS.map(w=>
@@ -530,7 +535,7 @@ function viewPlan(){
     <tr><td>Measurements</td><td>${S.measures.length}</td></tr>
     <tr><td>Lifts logged</td><td>${Object.keys(S.weights||{}).length}</td></tr>
     <tr><td>Last backup</td><td>${S.backedUp?esc(S.backedUp):"never"}</td></tr>
-    <tr><td>App version</td><td>v20</td></tr></tbody></table>
+    <tr><td>App version</td><td>v21</td></tr></tbody></table>
     <button class="ghost" data-act="export">Copy backup to clipboard</button>
     <button class="ghost" data-act="import">Restore from a backup</button>
     <p class="fine">Paste the backup somewhere it survives — Notes, an email to yourself. To restore, copy that text and tap Restore.</p>
