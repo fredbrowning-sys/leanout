@@ -194,8 +194,8 @@ const PUSH=[["Bench press","4 × 6-8 · 1-2 RIR"],["Incline DB press","3 × 8-10
 const PULL=[["Row machine","4 × 8-10 · 1-2 RIR"],["Lat pulldown","4 × 8-12 · 1-2 RIR"],["Single-arm DB row","3 × 10-12 /side · 1-2 RIR"],["Rear delt pec deck","3 × 12-15 · last set FAIL"],["Preacher curl","3 × 10-12 · last set FAIL"],["Hammer curl","3 × 10-12 · last set FAIL"]];
 const LEGS=[["Squat","4 × 6-8 · 1-2 RIR"],["Romanian deadlift","3 × 8-10 · 1-2 RIR"],["Leg press","3 × 10-12 · 1-2 RIR"],["Lying leg curl","3 × 10-12 · last set FAIL"],["Leg extension","3 × 12-15 · last set FAIL"],["Calf raise","3 × 12-15 · last set FAIL"],["Plank / leg raise","3 sets"]];
 const DELTS_ARMS=[["DB lateral raise","4 × 12-15 · last set FAIL"],["Rear delt pec deck","4 × 12-15 · last set FAIL"],["Pec deck flye","3 × 12-15 · last set FAIL"],["Row machine","3 × 10-12 · last set FAIL"],["Preacher curl","3 × 10-12 · last set FAIL"],["Overhead tricep ext","3 × 10-12 · last set FAIL"]];
-const RUN40=[["40 min run","Run how you feel"],["No HR cap","Effort, not a number"],["Log the distance","Same route each week"]];
-const RUN30=[["30 min run","Run how you feel"],["No HR cap","Shorter — 2nd day running"],["Log the distance",""]];
+const RUN40=[["Friday 40′ run","distance in km"]];
+const RUN30=[["Saturday 30′ run","distance in km"]];
 
 const WEEKS=[
 {n:1,target:208,note:"First week back. Log everything, honestly — including the messy bits. Expect a fast drop; most of it is water."},
@@ -241,7 +241,7 @@ function getPlan(date){
              5:{title:"Run 40′",ex:RUN40,kind:"run"},
              6:{title:"Run 30′",ex:RUN30,kind:"run"},
              0:{title:"Rest",ex:[],kind:"off"}};
-  const sub=g===0?"Walk only. Waist AM. Meal prep.":g===6?"+300 cal refeed today.":g===3?"Waist AM.":deload?"Deload — halve every set.":"";
+  const sub=g===0?"Walk only. Waist AM. Meal prep.":g===6?"Run how you feel, no HR cap. +300 cal refeed today.":g===5?"Run how you feel. No HR cap.":g===3?"Waist AM.":deload?"Deload — halve every set.":"";
   return Object.assign({phase:"CUT",week:w,sub:sub,note:w.note,tag:w.tag,tone:w.tone,deload:deload},map[g]);
 }
 
@@ -435,7 +435,7 @@ function viewProgress(){
       <button class="save" data-act="qsave">Save</button></div></section>`;
   } else h+=`<button class="ghost" data-act="qopen">+ Log a measurement</button>`;
   // ---- lifts ----
-  const ALL_LIFTS=[["Push",PUSH],["Pull",PULL],["Legs",LEGS],["Delts + Arms",DELTS_ARMS]];
+  const ALL_LIFTS=[["Push",PUSH],["Pull",PULL],["Legs",LEGS],["Delts + Arms",DELTS_ARMS],["Runs",RUN40.concat(RUN30)]];
   const W=S.weights||{};
   const logged=Object.keys(W).filter(k=>W[k]&&W[k].current!=null).length;
   h+=`<section class="card"><div class="card-head"><h3>Lifts</h3>
@@ -549,7 +549,7 @@ function viewPlan(){
     <tr><td>Measurements</td><td>${S.measures.length}</td></tr>
     <tr><td>Lifts logged</td><td>${Object.keys(S.weights||{}).length}</td></tr>
     <tr><td>Last backup</td><td>${S.backedUp?esc(S.backedUp):"never"}</td></tr>
-    <tr><td>App version</td><td>v22</td></tr></tbody></table>
+    <tr><td>App version</td><td>v23</td></tr></tbody></table>
     <button class="ghost" data-act="export">Copy backup to clipboard</button>
     <button class="ghost" data-act="import">Restore from a backup</button>
     <p class="fine">Paste the backup somewhere it survives — Notes, an email to yourself. To restore, copy that text and tap Restore.</p>
@@ -578,7 +578,8 @@ document.getElementById("main").addEventListener("click",e=>{
     const name=el.dataset.ex;
     S.weights=S.weights||{};
     const rec=S.weights[name]||{current:null,history:[]};
-    const raw=window.prompt(name+"\n\nWeight used today"+(rec.current!=null?"  (last: "+rec.current+")":"")+":",
+    const isRun=/run/i.test(name);
+    const raw=window.prompt(name+"\n\n"+(isRun?"Distance (km)":"Weight used today")+(rec.current!=null?"  (last: "+rec.current+")":"")+":",
                             rec.current!=null?rec.current:"");
     if(raw===null)return;
     const v=parseFloat(raw);
