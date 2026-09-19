@@ -359,9 +359,23 @@ function shortLabel(p){
 
 function viewWeek(date){
   const start=addDays(date,-((date.getDay()+6)%7)), wp=getPlan(date), t=today();
-  let h=`<div class="stack"><div class="card"><div class="card-head">
-    <h3>${wp.phase==="CUT"?`Week ${wp.week.n} of 16`:wp.phase==="DONE"?"Complete":"Not started"}</h3>
-    ${wp.phase==="CUT"&&wp.week.target?`<span class="counter">${wp.week.target} lb target</span>`:""}</div><div class="wkgrid">`;
+  const thisWk=key(addDays(today(),-((today().getDay()+6)%7)))===key(start);
+  let doneCount=0;
+  for(let i=0;i<7;i++){ if(S.sessions[key(addDays(start,i))]) doneCount++; }
+  const planned=(()=>{let n=0;for(let i=0;i<7;i++){const q=getPlan(addDays(start,i));if(q.kind!=="off"&&q.phase!=="BEFORE")n++;}return n;})();
+
+  let h=`<div class="stack">
+  <div class="daynav">
+    <button class="arrow" data-act="wprev">‹</button>
+    <div class="daynav-mid">
+      <span class="daynav-date">${wp.phase==="CUT"?`Week ${wp.week.n} / 16`:wp.phase==="DONE"?"Complete":"Not started"}</span>
+      ${!thisWk?'<button class="today-btn" data-act="wthis">Back to this week</button>':""}
+    </div>
+    <button class="arrow" data-act="wnext">›</button>
+  </div>
+  <div class="card"><div class="card-head">
+    <h3>${esc(pretty(start))} – ${esc(pretty(addDays(start,6)))}</h3>
+    <span class="counter${planned&&doneCount>=planned?" ok":""}">${doneCount}/${planned||0} done</span></div><div class="wkgrid">`;
   for(let i=0;i<7;i++){
     const d=addDays(start,i), p=getPlan(d), dn=!!S.sessions[key(d)], now=key(d)===key(t);
     h+=`<button class="wkday ${p.kind}${dn?" done":""}${now?" now":""}" data-act="goto" data-off="${dayDiff(d,t)}">
@@ -535,7 +549,7 @@ function viewPlan(){
     <tr><td>Measurements</td><td>${S.measures.length}</td></tr>
     <tr><td>Lifts logged</td><td>${Object.keys(S.weights||{}).length}</td></tr>
     <tr><td>Last backup</td><td>${S.backedUp?esc(S.backedUp):"never"}</td></tr>
-    <tr><td>App version</td><td>v21</td></tr></tbody></table>
+    <tr><td>App version</td><td>v22</td></tr></tbody></table>
     <button class="ghost" data-act="export">Copy backup to clipboard</button>
     <button class="ghost" data-act="import">Restore from a backup</button>
     <p class="fine">Paste the backup somewhere it survives — Notes, an email to yourself. To restore, copy that text and tap Restore.</p>
@@ -555,6 +569,9 @@ document.getElementById("main").addEventListener("click",e=>{
   else if(a==="next")offset++;
   else if(a==="today")offset=0;
   else if(a==="goto"){offset=parseInt(el.dataset.off,10);tab="today";}
+  else if(a==="wprev")offset-=7;
+  else if(a==="wnext")offset+=7;
+  else if(a==="wthis")offset=0;
   else if(a==="sess"){S.sessions[k]=!S.sessions[k];save();}
   else if(a==="ex"){const i=el.dataset.i;S.exercises[k]=S.exercises[k]||{};S.exercises[k][i]=!S.exercises[k][i];save();}
   else if(a==="wt"){
