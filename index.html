@@ -190,10 +190,10 @@ button{cursor:pointer}
 
 <script>
 /* ================= PLAN ================= */
-const PUSH=[["Bench press","4 × 6-8 · 1-2 RIR"],["Incline DB press","3 × 8-10 · 1-2 RIR"],["Overhead press","3 × 8-10 · 1-2 RIR"],["Pec deck flye","3 × 12-15 · last set FAIL"],["Cable lateral raise","4 × 12-15 · last set FAIL"],["Overhead tricep ext","3 × 10-12 · last set FAIL"],["Tricep pushdown","3 × 10-12 · last set FAIL"]];
-const PULL=[["Row machine","4 × 8-10 · 1-2 RIR"],["Lat pulldown","4 × 8-12 · 1-2 RIR"],["Single-arm DB row","3 × 10-12 /side · 1-2 RIR"],["Rear delt pec deck","3 × 12-15 · last set FAIL"],["Preacher curl","3 × 10-12 · last set FAIL"],["Hammer curl","3 × 10-12 · last set FAIL"]];
-const LEGS=[["Squat","4 × 6-8 · 1-2 RIR"],["Romanian deadlift","3 × 8-10 · 1-2 RIR"],["Leg press","3 × 10-12 · 1-2 RIR"],["Lying leg curl","3 × 10-12 · last set FAIL"],["Leg extension","3 × 12-15 · last set FAIL"],["Calf raise","3 × 12-15 · last set FAIL"],["Plank / leg raise","3 sets"]];
-const DELTS_ARMS=[["DB lateral raise","4 × 12-15 · last set FAIL"],["Rear delt pec deck","4 × 12-15 · last set FAIL"],["Pec deck flye","3 × 12-15 · last set FAIL"],["Row machine","3 × 10-12 · last set FAIL"],["Preacher curl","3 × 10-12 · last set FAIL"],["Overhead tricep ext","3 × 10-12 · last set FAIL"]];
+const PUSH=[["Bench press","4 × 6-10 · 1-2 RIR"],["Incline DB press","3 × 6-10 · 1-2 RIR"],["Overhead press","3 × 6-10 · 1-2 RIR"],["Pec deck flye","3 × 12-15 · last set FAIL"],["Cable lateral raise","4 × 12-15 · last set FAIL"],["Overhead tricep ext","3 × 10-15 · last set FAIL"],["Tricep pushdown","3 × 10-15 · last set FAIL"]];
+const PULL=[["Row machine","4 × 6-10 · 1-2 RIR"],["Lat pulldown","4 × 6-10 · 1-2 RIR"],["Straight-arm cable pulldown","3 × 12-15 · last set FAIL"],["Rear delt pec deck","3 × 12-15 · last set FAIL"],["Preacher curl","3 × 10-15 · last set FAIL"],["Hammer curl","3 × 10-15 · last set FAIL"]];
+const LEGS=[["Squat","4 × 6-10 · 1-2 RIR"],["Romanian deadlift","3 × 6-10 · 1-2 RIR"],["Leg press","3 × 6-10 · 1-2 RIR"],["Lying leg curl","3 × 10-15 · last set FAIL"],["Calf raise","3 × 12-15 · last set FAIL"]];
+const DELTS_ARMS=[["DB lateral raise","4 × 12-15 · last set FAIL"],["Rear delt pec deck","4 × 12-15 · last set FAIL"],["Pec deck flye","3 × 12-15 · last set FAIL"],["Row machine","3 × 10-15 · last set FAIL"],["Incline DB curl","3 × 10-15 · last set FAIL"],["Overhead tricep ext","3 × 10-15 · last set FAIL"]];
 const RUN40=[["Friday 40′ run","distance in km"]];
 const RUN30=[["Saturday 30′ run","distance in km"]];
 
@@ -514,10 +514,10 @@ function viewPlan(){
     <tr><td>Creatine</td><td>5 g daily</td></tr><tr><td>Whey</td><td>Fill protein gaps</td></tr>
     <tr><td>Caffeine</td><td>100–200 mg pre</td></tr><tr><td>Vitamin D3</td><td>2,000–4,000 IU</td></tr></tbody></table>
     <p class="fine">Everything else is a waste of money. No supplement meaningfully moves fat loss.</p>`);
-  h+=acc("effort","How hard to push",`<p class="fine"><b>Compounds — 1-2 RIR.</b> Bench, squat, overhead press, RDL, rows, incline press. Stop when you could manage one or two more clean reps. These cost the most systemic fatigue per set, and failing on them repeatedly eats into the volume you can recover from across the rest of the week.</p>
-    <p class="fine"><b>Isolations — last set to failure.</b> Pec deck, lateral raises, preacher curl, pushdowns, leg curl, leg extension, rear delt, calves. Earlier sets at 1-2 RIR, final set until you genuinely cannot complete another rep. Low systemic cost, and this is where the extra stimulus actually pays.</p>
-    <p class="fine">Volume is the driver, not failure. 10-20 hard sets per muscle per week is the range that matters — going to failure everywhere reduces total weekly volume by wrecking recovery, which works against the goal.</p>
-    <p class="warn">Progression: when you hit the top of the rep range at a given weight across all sets, add weight and drop back to the bottom of the range.</p>`);
+  h+=acc("effort","How hard to push",`<p class="fine"><b>Compounds — 6-10 reps, 1-2 RIR.</b> Bench, incline press, overhead press, row machine, lat pulldown, squat, RDL, leg press. Stop when you could manage one or two more clean reps. These cost the most fatigue per set, and failing on them repeatedly eats into what you can recover from across the week.</p>
+    <p class="fine"><b>Isolations — 10-15 reps, last set to failure.</b> Curls, tricep work, leg curl, lateral raises, rear delts, pec deck, straight-arm pulldown, calves. Earlier sets at 1-2 RIR, final set until you genuinely cannot complete another rep.</p>
+    <p class="fine">Volume is the driver, not failure. 10-20 hard sets per muscle per week is the range that matters.</p>
+    <p class="warn">Progression: same weight across all sets. When you hit the top of the range on every set, add weight and drop back to the bottom. On compounds, that means add weight at 10.</p>`);
 
   h+=acc("checkins","Check-in Sundays",`<p class="fine">Tracking is open-ended this time — no calibration cutoff. These are the days to actually look at the data instead of just logging it.</p>
     <table class="tbl"><tbody>
@@ -549,7 +549,7 @@ function viewPlan(){
     <tr><td>Measurements</td><td>${S.measures.length}</td></tr>
     <tr><td>Lifts logged</td><td>${Object.keys(S.weights||{}).length}</td></tr>
     <tr><td>Last backup</td><td>${S.backedUp?esc(S.backedUp):"never"}</td></tr>
-    <tr><td>App version</td><td>v23</td></tr></tbody></table>
+    <tr><td>App version</td><td>v27</td></tr></tbody></table>
     <button class="ghost" data-act="export">Copy backup to clipboard</button>
     <button class="ghost" data-act="import">Restore from a backup</button>
     <p class="fine">Paste the backup somewhere it survives — Notes, an email to yourself. To restore, copy that text and tap Restore.</p>
